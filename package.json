@@ -1,19 +1,39 @@
 {
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "typescript": "^5.5.3"
-  },
-  "name": "qris",
+  "name": "connect-bca-backend-js",
   "version": "1.0.0",
-  "main": "index.js",
-  "devDependencies": {},
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/routes/routes.js"
+    "dev": "nodemon src/index.ts",
+    "start": "node dist/src/index.js",
+    "build": "tsc",
+    "lint": "elint ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "morgan": "^1.10.0",
+    "objection": "^3.1.4",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.14.11",
+    "eslint": "^8.57.0",
+    "globals": "^15.8.0",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.1"
+  }
 }
