@@ -1,4 +1,4 @@
-import { findByUsername } from "../repositories/UserRepository";
+import { findByUsername } from "../repositories/userRepository";
 import { UserAccount } from "../interfaces/User";
 
 export const getUserAccount = async (username: string): Promise<UserAccount | null> => {
