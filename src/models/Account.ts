@@ -1,5 +1,4 @@
 import { Model } from 'objection';
-import User from './User';
 
 class Account extends Model {
   id!: string;
@@ -13,19 +12,6 @@ class Account extends Model {
 
   static get tableName() {
     return 'accounts'
-  }
-
-  static get relationMappings() {
-    return {
-      users: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: User,
-        join: {
-          from: 'accounts.user.id',
-          to: 'users.id'
-        }
-      }
-    }
   }
 }
 

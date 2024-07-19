@@ -12,6 +12,7 @@ class User extends Model {
   created_date!: Date;
   updated_date!: Date;
   deleted_date!: Date;
+  accounts!: Account;
 
   static get tableName() {
     return 'users'

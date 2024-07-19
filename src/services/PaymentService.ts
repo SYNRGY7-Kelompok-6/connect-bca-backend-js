@@ -1,11 +1,22 @@
-import UserRepository from "../repositories/UserRepository";
+import { findByUsername } from "../repositories/userRepository";
+import { UserAccount } from "../interfaces/User";
 
-class PaymentService {
-  async getUserAccount(username: string) {
-    const user = await UserRepository.findByUsername(username);
+export const getUserAccount = async (username: string): Promise<UserAccount | null> => {
+  const user = await findByUsername(username);
 
-    return user;
+  if (!user) {
+    return null;
   }
-}
 
-export default new PaymentService();
+  const userAccount: UserAccount = {
+    user: {
+      name: user.name,
+      username: user.username
+    },
+    account: {
+      account_number: user.accounts.account_number
+    }
+  }
+
+  return userAccount;
+}
