@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { getUserAccount } from '../services/paymentService';
+import QRCode from 'qrcode';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const generateQris = async (req: Request | any, res: Response) => {
@@ -15,5 +16,7 @@ export const generateQris = async (req: Request | any, res: Response) => {
     return res.status(404).json({ message: 'User not found' });
   }  
 
-  return res.status(200).json({ message: 'Success', data: userAccount });
+  const url = await QRCode.toDataURL(JSON.stringify(userAccount));
+
+  return res.status(200).json({ message: 'Success', data: url });
 }
