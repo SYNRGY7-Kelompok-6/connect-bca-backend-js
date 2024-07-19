@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { getUserAccount } from '../services/paymentService';
+import { getUserAccount } from '../services/PaymentService';
 import QRCode from 'qrcode';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

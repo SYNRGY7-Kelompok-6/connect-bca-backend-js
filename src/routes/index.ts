@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import { authentication } from '../middleware/authenticateMiddleware';
-import { generateQris } from '../controllers/paymentController';
+import { generateQris } from '../controllers/PaymentController';
 
 const router: Router = express.Router();
 
