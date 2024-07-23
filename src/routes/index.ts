@@ -6,7 +6,7 @@ import { handleNotFound, handleError } from '../utils/responseHelper';
 const router: Router = express.Router();
 
 router.get('/qr/qr-generate', authentication, generateQris);
-router.get('/qr/qr-pay', authentication, generateQrisPay);
+router.post('/qr/qr-pay', authentication, generateQrisPay);
 
 router.use((req: Request, res: Response) => {
   handleNotFound(res, "Route not found")
