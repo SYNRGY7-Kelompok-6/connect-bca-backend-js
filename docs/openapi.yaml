@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: API for generate payment QRIS
 servers:
-  - url: https://connect-bca.glitch.me/api/v1.0
+  - url: https://connect-bca-api.glitch.me/api/v1.0
     description: Development server
 tags:
   - name: QRIS
@@ -76,7 +76,7 @@ paths:
       security:
         - BearerAuth: []
       responses:
-        '201':
+        '200':
           description: Success
           content:
             application/json:
