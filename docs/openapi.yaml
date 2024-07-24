@@ -16,22 +16,22 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    ResponseQRISPay:
+    ResponseQRISTransfer:
       type: object
       properties:
         qrImage:
           type: string
         expiresAt:
           type: string
-    ResponseQRISTransfer:
+    ResponseQRISPay:
       type: object
       properties:
         qrImage:
           type: string
 paths:
-  /qr/qr-pay:
+  /qr/qr-transfer:
     post:
-      summary: Generate QRIS Payment
+      summary: Generate QRIS Transfer
       tags:
         - QRIS
       security:
@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseQRISPay'
+                $ref: '#/components/schemas/ResponseQRISTransfer'
         '400':
           description: Bad Request
         '401':
@@ -68,9 +68,9 @@ paths:
           description: Forbidden
         '500':
           description: Error
-  /qr/qr-transfer:
+  /qr/qr-pay:
     get:
-      summary: Generate QRIS Transfer
+      summary: Generate QRIS Payment
       tags:
         - QRIS
       security:
@@ -81,7 +81,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseQRISTransfer'
+                $ref: '#/components/schemas/ResponseQRISPay'
         '400':
           description: Bad Request
         '401':
