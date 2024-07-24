@@ -1,10 +1,11 @@
 import { Response } from 'express';
 import { qrisTransfer, qrisPay } from '../services/paymentService';
 import { 
-  handleUnauthorized,  
   handleSuccess, 
+  handleBadRequest,
+  handleUnauthorized,
+  handleNotFound,  
   handleError, 
-  handleBadRequest
 } from '../helpers/responseHelper';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,6 +25,10 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
   try {
     const qrData = await qrisTransfer(user.sub, amount, mode);
 
+    if (!qrData) {
+      return handleNotFound(res, "User not found");
+    }
+
     return handleSuccess(res, "QR code generated successfully", qrData);
   } catch (error) {
     return handleError(res, "Error generating QR", error);
@@ -41,6 +46,10 @@ export const generateQrisPay = async (req: Request | any, res: Response) => {
 
   try {
     const qrData = await qrisPay(user.sub, mode);
+
+    if (!qrData) {
+      return handleNotFound(res, "User not found");
+    }
 
     return handleSuccess(res, "QR code generated successfully", qrData);
   } catch (error) {

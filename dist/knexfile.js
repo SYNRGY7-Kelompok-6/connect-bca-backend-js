@@ -7,7 +7,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const { DEVELOPMENT_DATABASE_URL, STAGING_DATABASE_URL, } = process.env;
 const knexConfig = {
-    test: {
+    development: {
         client: 'postgresql',
         connection: DEVELOPMENT_DATABASE_URL,
         pool: {

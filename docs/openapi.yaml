@@ -66,6 +66,8 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
+        '404':
+          description: Not Found
         '500':
           description: Error
   /qr/qr-pay:
@@ -86,5 +88,7 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
+        '404':
+          description: Not Found
         '500':
           description: Error

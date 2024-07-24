@@ -25,6 +25,9 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     try {
         const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode);
+        if (!qrData) {
+            return (0, responseHelper_1.handleNotFound)(res, "User not found");
+        }
         return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", qrData);
     }
     catch (error) {
@@ -41,6 +44,9 @@ const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     try {
         const qrData = yield (0, paymentService_1.qrisPay)(user.sub, mode);
+        if (!qrData) {
+            return (0, responseHelper_1.handleNotFound)(res, "User not found");
+        }
         return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", qrData);
     }
     catch (error) {
