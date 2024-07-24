@@ -42,7 +42,6 @@ const qrisTransfer = (username_1, amount_1, ...args_1) => __awaiter(void 0, [use
 exports.qrisTransfer = qrisTransfer;
 const qrisPay = (username_1, ...args_1) => __awaiter(void 0, [username_1, ...args_1], void 0, function* (username, mode = 'bright') {
     const user = yield (0, userRepository_1.findByUsername)(username);
-    console.log(user);
     if (!user) {
         return null;
     }
