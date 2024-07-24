@@ -16,11 +16,11 @@ const knex_1 = __importDefault(require("knex"));
 const objection_1 = require("objection");
 const knexfile_1 = __importDefault(require("../../knexfile"));
 const environment = process.env.NODE_ENV || 'development';
-const db = (0, knex_1.default)(knexfile_1.default[environment]);
-objection_1.Model.knex(db);
+const knexInstance = (0, knex_1.default)(knexfile_1.default[environment]);
+objection_1.Model.knex(knexInstance);
 const checkDatabaseConnection = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield db.raw('SELECT 1+1 AS result');
+        yield knexInstance.raw('SELECT 1+1 AS result');
         console.log(`Database connection in environtment ${environment} has been established successfully`);
     }
     catch (error) {

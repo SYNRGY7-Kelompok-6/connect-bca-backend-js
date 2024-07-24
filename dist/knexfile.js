@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const { DEVELOPMENT_DATABASE_URL, STAGING_DATABASE_URL, } = process.env;
-const config = {
+const knexConfig = {
     development: {
         client: 'postgresql',
         connection: DEVELOPMENT_DATABASE_URL,
@@ -24,4 +24,4 @@ const config = {
         },
     }
 };
-exports.default = config;
+exports.default = knexConfig;

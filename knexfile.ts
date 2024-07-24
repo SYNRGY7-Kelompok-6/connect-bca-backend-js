@@ -9,7 +9,7 @@ const {
   STAGING_DATABASE_URL,
 } = process.env as Required<DatabaseConfig>;
 
-const config: { [key: string]: Knex.Config } = {
+const knexConfig: { [key: string]: Knex.Config } = {
   development: {
     client: 'postgresql',
     connection: DEVELOPMENT_DATABASE_URL,
@@ -28,4 +28,4 @@ const config: { [key: string]: Knex.Config } = {
   }
 };
 
-export default config;
+export default knexConfig;
