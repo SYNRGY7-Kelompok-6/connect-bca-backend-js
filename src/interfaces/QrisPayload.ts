@@ -10,3 +10,8 @@ export interface QrisTransferPayload {
   type: string;
   expiresAt: number;
 }
+
+export interface QrisPayPayload {
+  beneficiary: Beneficiary;
+  type: string;
+}

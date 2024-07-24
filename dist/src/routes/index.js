@@ -13,6 +13,7 @@ const root = new express_route_grouping_1.default('/', router);
 root.group('qr', (qr) => {
     qr.get('/qr-generate', authenticateMiddleware_1.authentication, qrController_1.generateQris);
     qr.post('/qr-transfer', authenticateMiddleware_1.authentication, qrController_1.generateQrisTransfer);
+    qr.get('/qr-pay', authenticateMiddleware_1.authentication, qrController_1.generateQrisPay);
 });
 router.use((req, res) => {
     (0, responseHelper_1.handleNotFound)(res, "Route not found");
