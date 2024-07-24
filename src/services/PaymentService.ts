@@ -42,11 +42,12 @@ export const qrisPay = async (
   mode: 'dark' | 'bright' = 'bright'
 ): Promise<{ qrImage: string } | null> => {
   const user = await findByUsername(username);
+  console.log(user)
 
   if (!user) {
     return null;
   }
-
+  
   const color = mode === 'dark'
   ? { dark: '#FFFFFF', light: '#1C1C1E' }
   : { dark: '#1C1C1E', light: '#FFFFFF' };

@@ -6,8 +6,8 @@ class User extends Model {
   username!: string;
   name!: string;
   password!: string;
-  // pin!: number;
-  // pin_expired_date!: Date;
+  pin!: number;
+  pin_expired_date!: Date;
   is_verified!: boolean;
   created_date!: Date;
   updated_date!: Date;
