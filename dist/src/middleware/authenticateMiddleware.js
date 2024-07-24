@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authentication = void 0;
 const jwt_1 = require("../utils/jwt");
-const responseHelper_1 = require("../utils/responseHelper");
+const responseHelper_1 = require("../helpers/responseHelper");
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const authentication = (req, res, next) => {
     var _a;

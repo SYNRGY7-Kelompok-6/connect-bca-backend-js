@@ -7,7 +7,7 @@ import {
   handleSuccess, 
   handleError, 
   handleBadRequest
-} from '../utils/responseHelper';
+} from '../helpers/responseHelper';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const generateQris = async (req: Request | any, res: Response) => {

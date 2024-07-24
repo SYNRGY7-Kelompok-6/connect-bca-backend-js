@@ -4,12 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_route_grouping_1 = __importDefault(require("express-route-grouping"));
 const authenticateMiddleware_1 = require("../middleware/authenticateMiddleware");
 const qrController_1 = require("../controllers/qrController");
-const responseHelper_1 = require("../utils/responseHelper");
+const responseHelper_1 = require("../helpers/responseHelper");
 const router = express_1.default.Router();
-router.get('/qr/qr-generate', authenticateMiddleware_1.authentication, qrController_1.generateQris);
-router.post('/qr/qr-pay', authenticateMiddleware_1.authentication, qrController_1.generateQrisPay);
+const root = new express_route_grouping_1.default('/', router);
+root.group('qr', (qr) => {
+    qr.get('/qr-generate', authenticateMiddleware_1.authentication, qrController_1.generateQris);
+    qr.post('/qr-pay', authenticateMiddleware_1.authentication, qrController_1.generateQrisPay);
+});
 router.use((req, res) => {
     (0, responseHelper_1.handleNotFound)(res, "Route not found");
 });
