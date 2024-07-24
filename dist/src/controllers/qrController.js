@@ -8,33 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateQrisPay = exports.generateQrisTransfer = exports.generateQris = void 0;
-const qrcode_1 = __importDefault(require("qrcode"));
+exports.generateQrisPay = exports.generateQrisTransfer = void 0;
 const paymentService_1 = require("../services/paymentService");
 const responseHelper_1 = require("../helpers/responseHelper");
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const generateQris = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user;
-    if (!user) {
-        return (0, responseHelper_1.handleUnauthorized)(res, "User not have credentials");
-    }
-    try {
-        const userAccount = yield (0, paymentService_1.getUserAccount)(user.sub);
-        if (!userAccount) {
-            return (0, responseHelper_1.handleNotFound)(res, "User not found");
-        }
-        const url = yield qrcode_1.default.toDataURL(JSON.stringify(userAccount));
-        return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", { qrImage: url });
-    }
-    catch (error) {
-        return (0, responseHelper_1.handleError)(res, "Error generating QR", error);
-    }
-});
-exports.generateQris = generateQris;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;

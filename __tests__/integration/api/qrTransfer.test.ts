@@ -4,7 +4,7 @@ import app from '../../../src';
 describe('Test endpoint API / qr-transfer', () => {
   it('should return 200 and QR data if request is successful', async () => {
     const res = await request(app)
-      .post('/qr-transfer')
+      .post('/api/v1.0/qr-transfer')
       .set('Authorization', 'Bearer token')
       .send({ amount: 100000 })
       .expect(200);
@@ -18,7 +18,7 @@ describe('Test endpoint API / qr-transfer', () => {
 
   it('should return 400 if amount is missing', async () => {
     const res = await request(app)
-      .post('/qr-transfer')
+      .post('/api/v1.0/qr-transfer')
       .set('Authorization', 'Bearer token')
       .expect(400);
 
@@ -27,7 +27,7 @@ describe('Test endpoint API / qr-transfer', () => {
 
   it('should return 401 if user is not authenticated', async () => {
     const res = await request(app)
-      .post('/qr-transfer')
+      .post('/api/v1.0/qr-transfer')
       .send({ amount: 100000 })
       .expect(401);
 
@@ -36,7 +36,7 @@ describe('Test endpoint API / qr-transfer', () => {
 
   // it('should return 500 if there is an error', async () => {
   //   const res = await request(app)
-  //     .post('/qr-transfer')
+  //     .post('/api/v1.0/qr-transfer')
   //     .set('Authorization', 'Bearer token')
   //     .send({ amount: 100000 })
   //     .expect(500);

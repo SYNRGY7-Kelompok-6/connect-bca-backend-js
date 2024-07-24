@@ -10,7 +10,7 @@ const {
 } = process.env as Required<DatabaseConfig>;
 
 const knexConfig: { [key: string]: Knex.Config } = {
-  development: {
+  test: {
     client: 'postgresql',
     connection: DEVELOPMENT_DATABASE_URL,
     pool: {

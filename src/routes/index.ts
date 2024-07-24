@@ -1,14 +1,13 @@
 import express, { Router, Request, Response } from 'express';
 import RouteGroup from 'express-route-grouping';
 import { authentication } from '../middleware/authenticateMiddleware';
-import { generateQris, generateQrisTransfer, generateQrisPay } from '../controllers/qrController';
+import { generateQrisTransfer, generateQrisPay } from '../controllers/qrController';
 import { handleNotFound, handleError } from '../helpers/responseHelper';
 
 const router: Router = express.Router();
 const root = new RouteGroup('/', router);
 
 root.group('qr', (qr) => {
-  qr.get('/qr-generate', authentication, generateQris);
   qr.post('/qr-transfer', authentication, generateQrisTransfer);
   qr.get('/qr-pay', authentication, generateQrisPay);
 })
