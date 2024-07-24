@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateQrisPay = exports.generateQris = void 0;
+exports.generateQrisTransfer = exports.generateQris = void 0;
 const qrcode_1 = __importDefault(require("qrcode"));
 const paymentService_1 = require("../services/paymentService");
 const responseHelper_1 = require("../helpers/responseHelper");
@@ -36,7 +36,7 @@ const generateQris = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.generateQris = generateQris;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     const { mode } = req.query;
     const { amount } = req.body;
@@ -47,11 +47,11 @@ const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function
         return (0, responseHelper_1.handleBadRequest)(res, "Amount is required");
     }
     try {
-        const qrData = yield (0, paymentService_1.qrisPay)(user.sub, amount, mode);
+        const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode);
         return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", qrData);
     }
     catch (error) {
         return (0, responseHelper_1.handleError)(res, "Error generating QR", error);
     }
 });
-exports.generateQrisPay = generateQrisPay;
+exports.generateQrisTransfer = generateQrisTransfer;

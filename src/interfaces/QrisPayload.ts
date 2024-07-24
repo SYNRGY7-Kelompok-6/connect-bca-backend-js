@@ -4,7 +4,7 @@ interface Beneficiary{
   accountNumber: string;
 }
 
-export interface QrisPayPayload {
+export interface QrisTransferPayload {
   beneficiary: Beneficiary;
   amount: string;
   type: string;

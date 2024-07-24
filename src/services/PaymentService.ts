@@ -1,7 +1,7 @@
 import QRCode from "qrcode";
 import { findByUsername } from "../repositories/userRepository";
 import { UserAccount } from "../interfaces/User";
-import { QrisPayPayload } from "../interfaces/QrisPayload";
+import { QrisTransferPayload } from "../interfaces/QrisPayload";
 import { qrisExpire } from "../utils/qrisExpire";
 
 export const getUserAccount = async (username: string): Promise<UserAccount | null> => {
@@ -24,7 +24,7 @@ export const getUserAccount = async (username: string): Promise<UserAccount | nu
   return userAccount;
 }
 
-export const qrisPay = async (
+export const qrisTransfer = async (
   username: string, 
   amount: string, 
   mode: 'dark' | 'bright' = 'bright'
@@ -42,7 +42,7 @@ export const qrisPay = async (
   ? { dark: '#FFFFFF', light: '#1C1C1E' }
   : { dark: '#1C1C1E', light: '#FFFFFF' };
   
-  const userAccount: QrisPayPayload = {
+  const userAccount: QrisTransferPayload = {
     beneficiary: {
       name: user.name,
       username: user.username,

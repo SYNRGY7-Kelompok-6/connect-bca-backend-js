@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import QRCode from 'qrcode';
-import { getUserAccount, qrisPay } from '../services/paymentService';
+import { getUserAccount, qrisTransfer } from '../services/paymentService';
 import { 
   handleUnauthorized, 
   handleNotFound, 
@@ -33,7 +33,7 @@ export const generateQris = async (req: Request | any, res: Response) => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const generateQrisPay = async (req: Request | any, res: Response) => {
+export const generateQrisTransfer = async (req: Request | any, res: Response) => {
   const user = req.user;
   const { mode } = req.query;
   const { amount } = req.body;
@@ -47,7 +47,7 @@ export const generateQrisPay = async (req: Request | any, res: Response) => {
   }
 
   try {
-    const qrData = await qrisPay(user.sub, amount, mode);
+    const qrData = await qrisTransfer(user.sub, amount, mode);
 
     return handleSuccess(res, "QR code generated successfully", qrData);
   } catch (error) {

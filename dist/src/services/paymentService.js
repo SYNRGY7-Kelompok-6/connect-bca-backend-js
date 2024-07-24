@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.qrisPay = exports.getUserAccount = void 0;
+exports.qrisTransfer = exports.getUserAccount = void 0;
 const qrcode_1 = __importDefault(require("qrcode"));
 const userRepository_1 = require("../repositories/userRepository");
 const qrisExpire_1 = require("../utils/qrisExpire");
@@ -33,7 +33,7 @@ const getUserAccount = (username) => __awaiter(void 0, void 0, void 0, function*
     return userAccount;
 });
 exports.getUserAccount = getUserAccount;
-const qrisPay = (username_1, amount_1, ...args_1) => __awaiter(void 0, [username_1, amount_1, ...args_1], void 0, function* (username, amount, mode = 'bright') {
+const qrisTransfer = (username_1, amount_1, ...args_1) => __awaiter(void 0, [username_1, amount_1, ...args_1], void 0, function* (username, amount, mode = 'bright') {
     const user = yield (0, userRepository_1.findByUsername)(username);
     if (!user) {
         return null;
@@ -56,4 +56,4 @@ const qrisPay = (username_1, amount_1, ...args_1) => __awaiter(void 0, [username
     const qrImage = yield qrcode_1.default.toDataURL(JSON.stringify(userAccount), { color });
     return { qrImage, expiresAt };
 });
-exports.qrisPay = qrisPay;
+exports.qrisTransfer = qrisTransfer;
