@@ -3,6 +3,7 @@ import Account from './Account';
 
 class User extends Model {
   id!: string;
+  user_id!: string;
   username!: string;
   name!: string;
   password!: string;

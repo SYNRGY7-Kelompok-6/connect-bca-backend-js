@@ -1,4 +1,5 @@
 interface Beneficiary{
+  userId: string;
   name: string;
   username: string;
   accountNumber: string;

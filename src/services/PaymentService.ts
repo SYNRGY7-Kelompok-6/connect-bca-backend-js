@@ -1,14 +1,14 @@
 import QRCode from "qrcode";
-import { findByUsername } from "../repositories/userRepository";
+import { findByUserId } from "../repositories/userRepository";
 import { QrisTransferPayload, QrisPayPayload } from "../interfaces/QrisPayload";
 import { qrisExpire } from "../utils/qrisExpire";
 
 export const qrisTransfer = async (
-  username: string, 
+  userId: string, 
   amount: string, 
   mode: 'dark' | 'bright' = 'bright'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
-  const user = await findByUsername(username);
+  const user = await findByUserId(userId);
 
   if (!user) {
     return null;
@@ -23,6 +23,7 @@ export const qrisTransfer = async (
   
   const userAccount: QrisTransferPayload = {
     beneficiary: {
+      userId: user.user_id,
       name: user.name,
       username: user.username,
       accountNumber: user.accounts.account_number
@@ -38,10 +39,10 @@ export const qrisTransfer = async (
 }
 
 export const qrisPay = async (
-  username: string, 
+  userId: string, 
   mode: 'dark' | 'bright' = 'bright'
 ): Promise<{ qrImage: string } | null> => {
-  const user = await findByUsername(username);
+  const user = await findByUserId(userId);
 
   if (!user) {
     return null;
@@ -53,6 +54,7 @@ export const qrisPay = async (
   
   const userAccount: QrisPayPayload = {
     beneficiary: {
+      userId: user.user_id,
       name: user.name,
       username: user.username,
       accountNumber: user.accounts.account_number
