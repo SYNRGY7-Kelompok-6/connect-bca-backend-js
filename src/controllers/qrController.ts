@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express';
-import { qrisTransfer, qrisPay, verifyQR } from '../services/PaymentService';
+import { qrisTransfer, qrisPay, verifyQR } from '../services/paymentService';
 import { 
   handleSuccess, 
   handleBadRequest,
