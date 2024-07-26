@@ -32,7 +32,11 @@ export const qrisTransfer = async (
     expiresAt
   }
 
-  const qrImage = await QRCode.toDataURL(JSON.stringify(userAccount), { color });
+  // Encrypt payload data
+  const encryptedData = encryptData(userAccount);
+
+  // Generate QR code
+  const qrImage = await QRCode.toDataURL(encryptedData, { color });
 
   return { qrImage, expiresAt };
 }
