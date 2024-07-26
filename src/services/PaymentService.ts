@@ -1,6 +1,7 @@
 import QRCode from "qrcode";
 import { findByUserId } from "../repositories/userRepository";
 import { QrisTransferPayload, QrisPayPayload } from "../interfaces/QrisPayload";
+import { encryptData } from "../utils/qrisEncrypt";
 import { qrisExpire } from "../utils/qrisExpire";
 
 export const qrisTransfer = async (
@@ -9,13 +10,11 @@ export const qrisTransfer = async (
   mode: 'dark' | 'bright' = 'bright'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
   const user = await findByUserId(userId);
+  const expiresAt = qrisExpire(3000);
 
   if (!user) {
     return null;
   }
-
-  // Set Expire date in second
-  const expiresAt = qrisExpire(3000);
 
   const color = mode === 'dark'
   ? { dark: '#FFFFFF', light: '#1C1C1E' }
@@ -62,7 +61,11 @@ export const qrisPay = async (
     type: 'QRIS Transfer',
   }
 
-  const qrImage = await QRCode.toDataURL(JSON.stringify(userAccount), { color });
+  // Encrypt payload data
+  const encryptedData = encryptData(userAccount);
+
+  // Generate QR code
+  const qrImage = await QRCode.toDataURL(encryptedData, { color });
 
   return { qrImage };
 }
