@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyQris = exports.generateQrisPay = exports.generateQrisTransfer = void 0;
-const PaymentService_1 = require("../services/PaymentService");
+const paymentService_1 = require("../services/paymentService");
 const responseHelper_1 = require("../helpers/responseHelper");
 const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
@@ -20,7 +20,7 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return (0, responseHelper_1.handleBadRequest)(res, "Amount is required");
     }
     try {
-        const qrData = yield (0, PaymentService_1.qrisTransfer)(user.sub, amount, mode);
+        const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode);
         if (!qrData) {
             return (0, responseHelper_1.handleNotFound)(res, "User not found");
         }
@@ -35,7 +35,7 @@ const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function
     const user = req.user;
     const { mode } = req.query;
     try {
-        const qrData = yield (0, PaymentService_1.qrisPay)(user.sub, mode);
+        const qrData = yield (0, paymentService_1.qrisPay)(user.sub, mode);
         if (!qrData) {
             return (0, responseHelper_1.handleNotFound)(res, "User not found");
         }
@@ -52,7 +52,7 @@ const verifyQris = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return (0, responseHelper_1.handleBadRequest)(res, 'QR data payload is required');
     }
     try {
-        const qrData = yield (0, PaymentService_1.verifyQR)(payload);
+        const qrData = yield (0, paymentService_1.verifyQR)(payload);
         if (!qrData) {
             return (0, responseHelper_1.handleBadRequest)(res, 'QR code is expired');
         }
