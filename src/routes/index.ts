@@ -10,7 +10,7 @@ const root = new RouteGroup('/', router);
 root.group('qr', (qr) => {
   qr.post('/qr-transfer', authentication, generateQrisTransfer);
   qr.get('/qr-pay', authentication, generateQrisPay);
-  qr.get('/qr-verify', authentication, verifyQris);
+  qr.post('/qr-verify', authentication, verifyQris);
 })
 
 router.use((req: Request, res: Response) => {

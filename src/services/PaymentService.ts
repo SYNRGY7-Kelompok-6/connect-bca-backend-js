@@ -1,5 +1,5 @@
 import QRCode from "qrcode";
-import { findByUserId } from "../repositories/userRepository";
+import { findByUserId } from "../repositories/UserRepository";
 import { QrisTransferPayload, QrisPayPayload, Amount } from "../interfaces/QrPayload";
 import { encryptData,decryptData } from "../utils/qrisEncrypt";
 import { qrisExpire, isExpired } from "../utils/qrisExpire";
