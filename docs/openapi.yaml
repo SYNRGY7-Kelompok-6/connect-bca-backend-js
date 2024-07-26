@@ -2,13 +2,13 @@ openapi: 3.1.0
 info:
   title: Connect BCA
   version: 1.0.0
-  description: API for generate payment QRIS
+  description: API for generate payment using QR code
 servers:
   - url: https://connect-bca-api.glitch.me/api/v1.0
     description: Development server
 tags:
   - name: QRIS
-    description: Admin and Super Admin related endpoints
+    description: Generate QR code for payment address
 components:
   securitySchemes:
     BearerAuth:
@@ -16,24 +16,72 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    ResponseQRISTransfer:
+    ResponseQRTransfer:
       type: object
       properties:
         qrImage:
           type: string
         expiresAt:
           type: string
-    ResponseQRISPay:
+    ResponseQRPay:
       type: object
       properties:
         qrImage:
           type: string
+    ResponseVerifyQR:
+      type: object
+      oneOf:
+        - properties:
+            beneficiary:
+              type: object
+              properties:
+                userId:
+                  type: string
+                name:
+                  type: string
+                username:
+                  type: string
+                accountNumber:
+                  type: string
+            type:
+              type: string
+          required:
+            - beneficiary
+            - type
+        - properties:
+            beneficiary:
+              type: object
+              properties:
+                userId:
+                  type: string
+                name:
+                  type: string
+                username:
+                  type: string
+                accountNumber:
+                  type: string
+            amount:
+              type: object
+              properties:
+                value:
+                  type: number
+                currency:
+                  type: string
+            type:
+              type: string
+            expiresAt:
+              type: string
+          required:
+            - beneficiary
+            - amount
+            - type
+            - expiresAt
 paths:
   /qr/qr-transfer:
     post:
-      summary: Generate QRIS Transfer
+      summary: Generate QR Transfer
       tags:
-        - QRIS
+        - QR Code
       security:
         - BearerAuth: []
       parameters:
@@ -59,7 +107,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseQRISTransfer'
+                $ref: '#/components/schemas/ResponseQRTransfer'
         '400':
           description: Bad Request
         '401':
@@ -72,9 +120,9 @@ paths:
           description: Error
   /qr/qr-pay:
     get:
-      summary: Generate QRIS Payment
+      summary: Generate QR Payment
       tags:
-        - QRIS
+        - QR Code
       security:
         - BearerAuth: []
       responses:
@@ -83,12 +131,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseQRISPay'
+                $ref: '#/components/schemas/ResponseQRPay'
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
           description: Not Found
+        '500':
+          description: Error
+  /qr/qr-verify:
+    post:
+      summary: Verify QR Payload
+      tags:
+        - QR Code
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseVerifyQR'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
         '500':
           description: Error

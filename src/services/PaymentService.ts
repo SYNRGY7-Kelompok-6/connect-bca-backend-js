@@ -1,21 +1,20 @@
 import QRCode from "qrcode";
-import { findByUserId } from "../repositories/userRepository";
-import { QrisTransferPayload, QrisPayPayload } from "../interfaces/QrisPayload";
-import { qrisExpire } from "../utils/qrisExpire";
+import { findByUserId } from "../repositories/UserRepository";
+import { QrisTransferPayload, QrisPayPayload, Amount } from "../interfaces/QrPayload";
+import { encryptData,decryptData } from "../utils/qrisEncrypt";
+import { qrisExpire, isExpired } from "../utils/qrisExpire";
 
 export const qrisTransfer = async (
   userId: string, 
-  amount: string, 
+  amount: Amount, 
   mode: 'dark' | 'bright' = 'bright'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
   const user = await findByUserId(userId);
+  const expiresAt = qrisExpire(300);
 
   if (!user) {
     return null;
   }
-
-  // Set Expire date in second
-  const expiresAt = qrisExpire(3000);
 
   const color = mode === 'dark'
   ? { dark: '#FFFFFF', light: '#1C1C1E' }
@@ -29,11 +28,15 @@ export const qrisTransfer = async (
       accountNumber: user.accounts.account_number
     },
     amount,
-    type: 'QRIS Pay',
+    type: 'QR Transfer',
     expiresAt
   }
 
-  const qrImage = await QRCode.toDataURL(JSON.stringify(userAccount), { color });
+  // Encrypt payload data
+  const encryptedData = encryptData(userAccount);
+
+  // Generate QR code
+  const qrImage = await QRCode.toDataURL(encryptedData, { color });
 
   return { qrImage, expiresAt };
 }
@@ -59,10 +62,24 @@ export const qrisPay = async (
       username: user.username,
       accountNumber: user.accounts.account_number
     },
-    type: 'QRIS Transfer',
+    type: 'QR Pay',
   }
 
-  const qrImage = await QRCode.toDataURL(JSON.stringify(userAccount), { color });
+  // Encrypt payload data
+  const encryptedData = encryptData(userAccount);
+
+  // Generate QR code
+  const qrImage = await QRCode.toDataURL(encryptedData, { color });
 
   return { qrImage };
+}
+
+export const verifyQR = async (qrData: string): Promise<QrisPayPayload | QrisTransferPayload | boolean> => {
+  const decryptedData = await decryptData(qrData);
+
+  if ('expiresAt' in decryptedData && isExpired(decryptedData.expiresAt)) {
+    return false;
+  }
+
+  return decryptedData;
 }
