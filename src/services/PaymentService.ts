@@ -1,12 +1,12 @@
 import QRCode from "qrcode";
 import { findByUserId } from "../repositories/userRepository";
-import { QrisTransferPayload, QrisPayPayload } from "../interfaces/QrisPayload";
-import { encryptData } from "../utils/qrisEncrypt";
+import { QrisTransferPayload, QrisPayPayload, Amount } from "../interfaces/QrPayload";
+import { encryptData,decryptData } from "../utils/qrisEncrypt";
 import { qrisExpire } from "../utils/qrisExpire";
 
 export const qrisTransfer = async (
   userId: string, 
-  amount: string, 
+  amount: Amount, 
   mode: 'dark' | 'bright' = 'bright'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
   const user = await findByUserId(userId);
@@ -28,7 +28,7 @@ export const qrisTransfer = async (
       accountNumber: user.accounts.account_number
     },
     amount,
-    type: 'QRIS Pay',
+    type: 'QR Pay',
     expiresAt
   }
 
@@ -62,7 +62,7 @@ export const qrisPay = async (
       username: user.username,
       accountNumber: user.accounts.account_number
     },
-    type: 'QRIS Transfer',
+    type: 'QR Transfer',
   }
 
   // Encrypt payload data
@@ -72,4 +72,10 @@ export const qrisPay = async (
   const qrImage = await QRCode.toDataURL(encryptedData, { color });
 
   return { qrImage };
+}
+
+export const verifyQR = async (qrData: string): Promise<QrisPayPayload | QrisTransferPayload> => {
+  const decryptedData = await decryptData(qrData);
+
+  return decryptedData;
 }

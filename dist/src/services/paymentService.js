@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.qrisPay = exports.qrisTransfer = void 0;
+exports.verifyQR = exports.qrisPay = exports.qrisTransfer = void 0;
 const qrcode_1 = __importDefault(require("qrcode"));
 const userRepository_1 = require("../repositories/userRepository");
 const qrisEncrypt_1 = require("../utils/qrisEncrypt");
@@ -34,7 +34,7 @@ const qrisTransfer = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userI
             accountNumber: user.accounts.account_number
         },
         amount,
-        type: 'QRIS Pay',
+        type: 'QR Pay',
         expiresAt
     };
     // Encrypt payload data
@@ -59,7 +59,7 @@ const qrisPay = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...args_1]
             username: user.username,
             accountNumber: user.accounts.account_number
         },
-        type: 'QRIS Transfer',
+        type: 'QR Transfer',
     };
     // Encrypt payload data
     const encryptedData = (0, qrisEncrypt_1.encryptData)(userAccount);
@@ -68,3 +68,8 @@ const qrisPay = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...args_1]
     return { qrImage };
 });
 exports.qrisPay = qrisPay;
+const verifyQR = (qrData) => __awaiter(void 0, void 0, void 0, function* () {
+    const decryptedData = yield (0, qrisEncrypt_1.decryptData)(qrData);
+    return decryptedData;
+});
+exports.verifyQR = verifyQR;
