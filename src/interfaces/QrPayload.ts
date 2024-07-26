@@ -13,11 +13,11 @@ export interface Amount {
 export interface QrisTransferPayload {
   beneficiary: Beneficiary;
   amount: Amount;
-  type: 'QR Pay';
+  type: 'QR Transfer';
   expiresAt: number;
 }
 
 export interface QrisPayPayload {
   beneficiary: Beneficiary;
-  type: 'QR Transfer';
+  type: 'QR Pay';
 }

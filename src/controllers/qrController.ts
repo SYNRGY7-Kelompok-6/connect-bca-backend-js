@@ -57,6 +57,10 @@ export const verifyQris = async (req: Request | any, res: Response) => {
   try {
     const qrData = await verifyQR(payload);
 
+    if (!qrData) {
+      return handleBadRequest(res, 'QR code is expired')
+    }
+
     return handleSuccess(res, "QR code payload succesfully parsed", qrData); 
   } catch (error) {
     return handleError(res, "Error parsed QR payload", error)

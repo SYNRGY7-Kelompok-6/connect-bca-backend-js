@@ -2,7 +2,7 @@ import QRCode from "qrcode";
 import { findByUserId } from "../repositories/userRepository";
 import { QrisTransferPayload, QrisPayPayload, Amount } from "../interfaces/QrPayload";
 import { encryptData,decryptData } from "../utils/qrisEncrypt";
-import { qrisExpire } from "../utils/qrisExpire";
+import { qrisExpire, isExpired } from "../utils/qrisExpire";
 
 export const qrisTransfer = async (
   userId: string, 
@@ -10,7 +10,7 @@ export const qrisTransfer = async (
   mode: 'dark' | 'bright' = 'bright'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
   const user = await findByUserId(userId);
-  const expiresAt = qrisExpire(3000);
+  const expiresAt = qrisExpire(300);
 
   if (!user) {
     return null;
@@ -28,7 +28,7 @@ export const qrisTransfer = async (
       accountNumber: user.accounts.account_number
     },
     amount,
-    type: 'QR Pay',
+    type: 'QR Transfer',
     expiresAt
   }
 
@@ -62,7 +62,7 @@ export const qrisPay = async (
       username: user.username,
       accountNumber: user.accounts.account_number
     },
-    type: 'QR Transfer',
+    type: 'QR Pay',
   }
 
   // Encrypt payload data
@@ -74,8 +74,12 @@ export const qrisPay = async (
   return { qrImage };
 }
 
-export const verifyQR = async (qrData: string): Promise<QrisPayPayload | QrisTransferPayload> => {
+export const verifyQR = async (qrData: string): Promise<QrisPayPayload | QrisTransferPayload | boolean> => {
   const decryptedData = await decryptData(qrData);
+
+  if ('expiresAt' in decryptedData && isExpired(decryptedData.expiresAt)) {
+    return false;
+  }
 
   return decryptedData;
 }

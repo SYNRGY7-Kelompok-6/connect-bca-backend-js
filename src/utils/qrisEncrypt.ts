@@ -1,7 +1,11 @@
 import crypto from 'crypto';
 import { QrisTransferPayload, QrisPayPayload } from "../interfaces/QrPayload";
+import dotenv from 'dotenv';
 
-const encryptionKey = Buffer.from('7f5e2d6c3b2a6e1f4c8d2b3e5a6f9d0c7e8b1c2d4a5e6f7d8c9b0a1e2f3c4d5e', 'hex');
+dotenv.config();
+
+const encryptionKeyEnv: string = process.env.ENCRYPTION_KEY || '7f5e2d6c3b2a6e1f4c8d2b3e5a6f9d0c7e8b1c2d4a5e6f7d8c9b0a1e2f3c4d5e';
+const encryptionKey = Buffer.from(encryptionKeyEnv, 'hex');
 const iv = crypto.randomBytes(16);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
