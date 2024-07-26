@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyQR = exports.qrisPay = exports.qrisTransfer = void 0;
 const qrcode_1 = __importDefault(require("qrcode"));
-const UserRepository_1 = require("../repositories/UserRepository");
+const userRepository_1 = require("../repositories/userRepository");
 const qrisEncrypt_1 = require("../utils/qrisEncrypt");
 const qrisExpire_1 = require("../utils/qrisExpire");
 const qrisTransfer = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userId_1, amount_1, ...args_1], void 0, function* (userId, amount, mode = 'bright') {
-    const user = yield (0, UserRepository_1.findByUserId)(userId);
+    const user = yield (0, userRepository_1.findByUserId)(userId);
     const expiresAt = (0, qrisExpire_1.qrisExpire)(300);
     if (!user) {
         return null;
@@ -43,7 +43,7 @@ const qrisTransfer = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userI
 });
 exports.qrisTransfer = qrisTransfer;
 const qrisPay = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...args_1], void 0, function* (userId, mode = 'bright') {
-    const user = yield (0, UserRepository_1.findByUserId)(userId);
+    const user = yield (0, userRepository_1.findByUserId)(userId);
     if (!user) {
         return null;
     }
