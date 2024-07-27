@@ -28,7 +28,7 @@ const qrisTransfer = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userI
         ? { dark: '#FFFFFF', light: '#1C1C1E' }
         : { dark: '#1C1C1E', light: '#FFFFFF' };
     const userAccount = {
-        recipient: {
+        beneficiary: {
             name: user.name,
             accountNumber: user.accounts.account_number
         },
@@ -56,7 +56,7 @@ const qrisPay = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...args_1]
         ? { dark: '#FFFFFF', light: '#1C1C1E' }
         : { dark: '#1C1C1E', light: '#FFFFFF' };
     const userAccount = {
-        recipient: {
+        beneficiary: {
             name: user.name,
             accountNumber: user.accounts.account_number
         },
