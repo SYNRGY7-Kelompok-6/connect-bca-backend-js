@@ -84,6 +84,13 @@ paths:
             type: string
             enum: [bright, dark]
           description: Default mode is bright
+        - name: option
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [qr, url]
+          description: Default option is qr
       requestBody:
         required: true
         content: 
@@ -117,6 +124,22 @@ paths:
         - QR Code
       security:
         - BearerAuth: []
+      parameters:
+        - name: mode
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [bright, dark]
+          description: Default mode is bright
+        - name: option
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [qr, url]
+          description: Default option is qr
+
       responses:
         '200':
           description: Success
