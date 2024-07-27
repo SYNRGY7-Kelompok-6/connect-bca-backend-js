@@ -1,4 +1,4 @@
-interface Recipient {
+interface Beneficiary {
   name: string;
   accountNumber: string;
 }
@@ -9,13 +9,13 @@ export interface Amount {
 }
 
 export interface QrisTransferPayload {
-  recipient: Recipient;
+  beneficiary: Beneficiary;
   amount: Amount;
   type: 'QR Transfer';
   expiresAt: number;
 }
 
 export interface QrisPayPayload {
-  recipient: Recipient;
+  beneficiary: Beneficiary;
   type: 'QR Pay';
 }
