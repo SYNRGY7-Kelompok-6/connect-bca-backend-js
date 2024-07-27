@@ -10,7 +10,7 @@ import {
 
 export const generateQrisTransfer = async (req: Request | any, res: Response) => {
   const user = req.user;
-  const { mode } = req.query;
+  const { mode, option } = req.query;
   const { amount } = req.body;
 
   if (!amount) {
@@ -18,7 +18,7 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
   }
 
   try {
-    const qrData = await qrisTransfer(user.sub, amount, mode);
+    const qrData = await qrisTransfer(user.sub, amount, mode, option);
 
     if (!qrData) {
       return handleNotFound(res, "User not found");
@@ -32,10 +32,10 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
 
 export const generateQrisPay = async (req: Request | any, res: Response) => {
   const user = req.user;
-  const { mode } = req.query;
+  const { mode, option } = req.query;
 
   try {
-    const qrData = await qrisPay(user.sub, mode);
+    const qrData = await qrisPay(user.sub, mode, option);
 
     if (!qrData) {
       return handleNotFound(res, "User not found");

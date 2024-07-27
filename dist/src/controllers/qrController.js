@@ -14,13 +14,13 @@ const paymentService_1 = require("../services/paymentService");
 const responseHelper_1 = require("../helpers/responseHelper");
 const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
-    const { mode } = req.query;
+    const { mode, option } = req.query;
     const { amount } = req.body;
     if (!amount) {
         return (0, responseHelper_1.handleBadRequest)(res, "Amount is required");
     }
     try {
-        const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode);
+        const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode, option);
         if (!qrData) {
             return (0, responseHelper_1.handleNotFound)(res, "User not found");
         }
@@ -33,9 +33,9 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.generateQrisTransfer = generateQrisTransfer;
 const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
-    const { mode } = req.query;
+    const { mode, option } = req.query;
     try {
-        const qrData = yield (0, paymentService_1.qrisPay)(user.sub, mode);
+        const qrData = yield (0, paymentService_1.qrisPay)(user.sub, mode, option);
         if (!qrData) {
             return (0, responseHelper_1.handleNotFound)(res, "User not found");
         }
