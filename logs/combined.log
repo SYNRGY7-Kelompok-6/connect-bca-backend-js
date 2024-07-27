@@ -1,4 +1,0 @@
-{"level":"info","message":"::1 - - [27/Jul/2024:12:50:05 +0000] \"POST /api/v1.0/qr/qr-transfer?mode=dark HTTP/1.1\" 403 55 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-27T12:50:05.865Z"}
-{"level":"info","message":"::1 - - [27/Jul/2024:12:50:11 +0000] \"GET /api/v1.0/qr/qr-pay?mode=dark&option=url HTTP/1.1\" 403 55 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-27T12:50:11.072Z"}
-{"level":"info","message":"::1 - - [27/Jul/2024:12:51:11 +0000] \"GET /api/v1.0/qr/qr-pay?mode=dark&option=url HTTP/1.1\" 200 187 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-27T12:51:11.608Z"}
-{"level":"info","message":"::1 - - [27/Jul/2024:12:51:14 +0000] \"POST /api/v1.0/qr/qr-transfer?mode=dark HTTP/1.1\" 200 10689 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-27T12:51:14.595Z"}
