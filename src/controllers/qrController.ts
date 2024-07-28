@@ -13,8 +13,10 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
   const { mode, option } = req.query;
   const { amount } = req.body;
 
-  if (!amount) {
-    return handleBadRequest(res, "Amount is required");
+  if (!amount.value) {
+    return handleBadRequest(res, "Amount value is required");
+  } else if (!amount.currency) {
+    return handleBadRequest(res, "Amount currency is required");
   }
 
   try {

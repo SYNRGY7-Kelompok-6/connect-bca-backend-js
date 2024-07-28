@@ -23,10 +23,8 @@ export const qrisTransfer = async (
   : { dark: '#1C1C1E', light: '#FFFFFF' };
   
   const userAccount: QrisTransferPayload = {
-    beneficiary: {
-      name: user.name,
-      accountNumber: user.accounts.account_number
-    },
+    beneficiaryName: user.name,
+    beneficiaryAccountNumber: user.accounts.account_number,
     amount,
     type: 'QR Transfer',
     expiresAt
@@ -62,10 +60,8 @@ export const qrisPay = async (
   : { dark: '#1C1C1E', light: '#FFFFFF' };
   
   const userAccount: QrisPayPayload = {
-    beneficiary: {
-      name: user.name,
-      accountNumber: user.accounts.account_number
-    },
+    beneficiaryName: user.name,
+    beneficiaryAccountNumber: user.accounts.account_number,
     type: 'QR Pay',
   }
 

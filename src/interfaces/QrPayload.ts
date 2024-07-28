@@ -1,21 +1,18 @@
-interface Beneficiary {
-  name: string;
-  accountNumber: string;
-}
-
 export interface Amount {
   value: number;
   currency: 'IDR';
 }
 
 export interface QrisTransferPayload {
-  beneficiary: Beneficiary;
+  beneficiaryName: string;
+  beneficiaryAccountNumber: string;
   amount: Amount;
   type: 'QR Transfer';
   expiresAt: number;
 }
 
 export interface QrisPayPayload {
-  beneficiary: Beneficiary;
+  beneficiaryName: string;
+  beneficiaryAccountNumber: string;
   type: 'QR Pay';
 }

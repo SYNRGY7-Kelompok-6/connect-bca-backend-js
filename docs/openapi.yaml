@@ -32,26 +32,20 @@ components:
       type: object
       oneOf:
         - properties:
-            beneficiary:
-              type: object
-              properties:
-                name:
-                  type: string
-                accountNumber:
-                  type: string
+            beneficiaryName:
+              type: string
+            beneficiaryAccountNumber:
+              type: string
             type:
               type: string
           required:
             - beneficiary
             - type
         - properties:
-            beneficiary:
-              type: object
-              properties:
-                name:
-                  type: string
-                accountNumber:
-                  type: string
+            beneficiaryName:
+              type: string
+            beneficiaryAccountNumber:
+              type: string
             amount:
               type: object
               properties:
@@ -99,7 +93,12 @@ paths:
               type: object
               properties:
                 amount:
-                  type: number
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                    currency:
+                      type: string
       responses:
         '200':
           description: Success
