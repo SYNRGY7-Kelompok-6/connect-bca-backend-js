@@ -28,10 +28,8 @@ const qrisTransfer = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userI
         ? { dark: '#FFFFFF', light: '#1C1C1E' }
         : { dark: '#1C1C1E', light: '#FFFFFF' };
     const userAccount = {
-        beneficiary: {
-            name: user.name,
-            accountNumber: user.accounts.account_number
-        },
+        beneficiaryName: user.name,
+        beneficiaryAccountNumber: user.accounts.account_number,
         amount,
         type: 'QR Transfer',
         expiresAt
@@ -56,10 +54,8 @@ const qrisPay = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...args_1]
         ? { dark: '#FFFFFF', light: '#1C1C1E' }
         : { dark: '#1C1C1E', light: '#FFFFFF' };
     const userAccount = {
-        beneficiary: {
-            name: user.name,
-            accountNumber: user.accounts.account_number
-        },
+        beneficiaryName: user.name,
+        beneficiaryAccountNumber: user.accounts.account_number,
         type: 'QR Pay',
     };
     // Encrypt payload data

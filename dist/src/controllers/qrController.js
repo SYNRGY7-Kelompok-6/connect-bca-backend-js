@@ -16,8 +16,11 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
     const user = req.user;
     const { mode, option } = req.query;
     const { amount } = req.body;
-    if (!amount) {
-        return (0, responseHelper_1.handleBadRequest)(res, "Amount is required");
+    if (!amount.value) {
+        return (0, responseHelper_1.handleBadRequest)(res, "Amount value is required");
+    }
+    else if (!amount.currency) {
+        return (0, responseHelper_1.handleBadRequest)(res, "Amount currency is required");
     }
     try {
         const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode, option);

@@ -32,26 +32,20 @@ components:
       type: object
       oneOf:
         - properties:
-            beneficiary:
-              type: object
-              properties:
-                name:
-                  type: string
-                accountNumber:
-                  type: string
+            beneficiaryName:
+              type: string
+            beneficiaryAccountNumber:
+              type: string
             type:
               type: string
           required:
             - beneficiary
             - type
         - properties:
-            beneficiary:
-              type: object
-              properties:
-                name:
-                  type: string
-                accountNumber:
-                  type: string
+            beneficiaryName:
+              type: string
+            beneficiaryAccountNumber:
+              type: string
             amount:
               type: object
               properties:
@@ -84,6 +78,13 @@ paths:
             type: string
             enum: [bright, dark]
           description: Default mode is bright
+        - name: option
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [qr, url]
+          description: Default option is qr
       requestBody:
         required: true
         content: 
@@ -92,7 +93,12 @@ paths:
               type: object
               properties:
                 amount:
-                  type: number
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                    currency:
+                      type: string
       responses:
         '200':
           description: Success
@@ -117,6 +123,22 @@ paths:
         - QR Code
       security:
         - BearerAuth: []
+      parameters:
+        - name: mode
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [bright, dark]
+          description: Default mode is bright
+        - name: option
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [qr, url]
+          description: Default option is qr
+
       responses:
         '200':
           description: Success
