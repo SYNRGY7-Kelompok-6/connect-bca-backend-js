@@ -36,11 +36,11 @@ components:
               type: string
             beneficiaryAccountNumber:
               type: string
-            type:
+            remark:
               type: string
           required:
             - beneficiary
-            - type
+            - remark
         - properties:
             beneficiaryName:
               type: string
@@ -53,14 +53,14 @@ components:
                   type: number
                 currency:
                   type: string
-            type:
+            remark:
               type: string
             expiresAt:
               type: number
           required:
             - beneficiary
             - amount
-            - type
+            - remark
             - expiresAt
 paths:
   /qr/qr-transfer:
@@ -107,11 +107,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseQRTransfer'
         '400':
-          description: Bad Request
+          description: Bad Request - Request body empty
         '401':
-          description: Unauthorized
+          description: Unauthorized - Access token empty
         '403':
-          description: Forbidden
+          description: Forbidden - Invalid access token
         '404':
           description: Not Found
         '500':
@@ -147,9 +147,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseQRPay'
         '401':
-          description: Unauthorized
+          description: Unauthorized - Access token empty
         '403':
-          description: Forbidden
+          description: Forbidden - Invalid access token
         '404':
           description: Not Found
         '500':
@@ -178,10 +178,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseVerifyQR'
         '400':
-          description: Bad Request
+          description: Bad Request - Request body empty
         '401':
-          description: Unauthorized
+          description: Unauthorized - Access token empty
         '403':
-          description: Forbidden
+          description: Forbidden - Invalid access token
+        '404':
+          description: Not Found - Payload is expired
         '500':
-          description: Error
+          description: Error - Invalid request body payload
