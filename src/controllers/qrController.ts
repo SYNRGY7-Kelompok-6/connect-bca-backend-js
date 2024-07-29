@@ -17,6 +17,8 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
     return handleBadRequest(res, "Amount value is required");
   } else if (!amount.currency) {
     return handleBadRequest(res, "Amount currency is required");
+  } else if (typeof amount.value !== "number") {
+    return handleBadRequest(res, "Amount value invalid");
   }
 
   try {
@@ -60,7 +62,7 @@ export const verifyQris = async (req: Request | any, res: Response) => {
     const qrData = await verifyQR(payload);
 
     if (!qrData) {
-      return handleBadRequest(res, 'QR code is expired')
+      return handleNotFound(res, 'QR code is expired')
     }
 
     return handleSuccess(res, "QR code payload succesfully parsed", qrData); 
