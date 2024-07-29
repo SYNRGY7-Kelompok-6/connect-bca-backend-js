@@ -1,0 +1,11 @@
+{"level":"info","message":"::1 - - [29/Jul/2024:16:47:42 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 403 55 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:47:42.378Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:16:48:27 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 400 55 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:48:27.088Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:16:48:35 +0000] \"GET /api/v1.0/qr/qr-pay?mode=dark HTTP/1.1\" 200 7659 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:48:35.145Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:16:49:14 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 200 159 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:49:14.773Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:16:49:21 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 400 64 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:49:21.989Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:16:49:33 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 500 95 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:49:33.114Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:16:49:50 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 500 95 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:49:50.159Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:16:52:45 +0000] \"POST /api/v1.0/qr/qr-transfer HTTP/1.1\" 200 11373 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T16:52:45.604Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:17:14:44 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 200 159 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T17:14:44.604Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:17:21:09 +0000] \"POST /api/v1.0/qr/qr-transfer HTTP/1.1\" 200 11253 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T17:21:09.549Z"}
+{"level":"info","message":"::1 - - [29/Jul/2024:17:22:22 +0000] \"POST /api/v1.0/qr/qr-verify HTTP/1.1\" 200 235 \"-\" \"PostmanRuntime/7.40.0\"","timestamp":"2024-07-29T17:22:22.478Z"}
