@@ -22,6 +22,9 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
     else if (!amount.currency) {
         return (0, responseHelper_1.handleBadRequest)(res, "Amount currency is required");
     }
+    else if (typeof amount.value !== "number") {
+        return (0, responseHelper_1.handleBadRequest)(res, "Amount value invalid");
+    }
     try {
         const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode, option);
         if (!qrData) {
@@ -57,7 +60,7 @@ const verifyQris = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const qrData = yield (0, paymentService_1.verifyQR)(payload);
         if (!qrData) {
-            return (0, responseHelper_1.handleBadRequest)(res, 'QR code is expired');
+            return (0, responseHelper_1.handleNotFound)(res, 'QR code is expired');
         }
         return (0, responseHelper_1.handleSuccess)(res, "QR code payload succesfully parsed", qrData);
     }

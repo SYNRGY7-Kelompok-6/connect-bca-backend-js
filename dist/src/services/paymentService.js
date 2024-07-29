@@ -31,7 +31,7 @@ const qrisTransfer = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userI
         beneficiaryName: user.name,
         beneficiaryAccountNumber: user.accounts.account_number,
         amount,
-        type: 'QR Transfer',
+        remark: 'QR Transfer',
         expiresAt
     };
     // Encrypt payload data
@@ -56,7 +56,7 @@ const qrisPay = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...args_1]
     const userAccount = {
         beneficiaryName: user.name,
         beneficiaryAccountNumber: user.accounts.account_number,
-        type: 'QR Pay',
+        remark: 'QR Pay',
     };
     // Encrypt payload data
     const encryptedData = (0, qrisEncrypt_1.encryptData)(userAccount);

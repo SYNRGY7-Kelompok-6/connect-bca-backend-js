@@ -26,7 +26,7 @@ export const qrisTransfer = async (
     beneficiaryName: user.name,
     beneficiaryAccountNumber: user.accounts.account_number,
     amount,
-    type: 'QR Transfer',
+    remark: 'QR Transfer',
     expiresAt
   }
 
@@ -62,7 +62,7 @@ export const qrisPay = async (
   const userAccount: QrisPayPayload = {
     beneficiaryName: user.name,
     beneficiaryAccountNumber: user.accounts.account_number,
-    type: 'QR Pay',
+    remark: 'QR Pay',
   }
 
   // Encrypt payload data
