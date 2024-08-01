@@ -1,7 +1,8 @@
 # Connect BCA API
 
 ## API Documentation
-- Can access with this link: https://connect-bca-api.glitch.me/api-docs/
+- Option 1 can access with this link: https://connect-bca-api.glitch.me/api-docs/
+- Option 2 can access with this link: https://connect-bca.fly.dev/api-docs/
 
 ## Pre-reading Rules to Contribute
 - Best practice for branch naming and commit message: https://medium.com/@shinjithkanhangad/git-good-best-practices-for-branch-naming-and-commit-messages-a903b9f08d68

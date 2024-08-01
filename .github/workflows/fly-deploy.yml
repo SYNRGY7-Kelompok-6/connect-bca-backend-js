@@ -11,6 +11,7 @@ jobs:
     name: connect-bca app
     runs-on: ubuntu-latest
     concurrency: deploy-group
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4

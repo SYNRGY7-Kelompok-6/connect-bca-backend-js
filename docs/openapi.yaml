@@ -5,7 +5,9 @@ info:
   description: API for generate payment using QR code
 servers:
   - url: https://connect-bca-api.glitch.me/api/v1.0
-    description: Development server
+    description: Staging server
+  - url: https://connect-bca.fly.dev/api/v1.0
+    description: Staging server
 tags:
   - name: QRIS
     description: Generate QR code for payment address
