@@ -1,0 +1,32 @@
+# fly.toml app configuration file generated for connect-bca on 2024-08-01T08:41:59+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'connect-bca'
+primary_region = 'sin'
+
+[build]
+
+[env]
+  PORT = '8000'
+  NODE_ENV = 'staging'
+  CLOUD_NAME = 'ddpbwjjfz'
+  API_KEY = '978931698348746'
+  API_SECRET = '6aJUsabfVgJns-wvPluvObUCRTE'
+  ENCRYPTION_KEY='7f5e2d6c3b2a6e1f4c8d2b3e5a6f9d0c7e8b1c2d4a5e6f7d8c9b0a1e2f3c4d5e'
+  JWT_SECRET_TOKEN='mn8QVvcuoTYZvbzA7lBwy66EH1ab4RDiPOUe9blKiNUykeA1Xd7wz+c9VFuGvl6GJYosgEjE8/lr'
+  STAGING_DATABASE_URL='postgresql://ep-purple-mud-a10aacdb.ap-southeast-1.aws.neon.tech/banking-apps?user=banking-apps_owner&password=SW4GUNEzKO3f&sslmode=require'
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
