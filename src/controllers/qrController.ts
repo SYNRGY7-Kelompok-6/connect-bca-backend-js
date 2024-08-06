@@ -19,6 +19,10 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
     return handleBadRequest(res, "Amount currency is required");
   } else if (typeof amount.value !== "number") {
     return handleBadRequest(res, "Amount value invalid");
+  } else if (amount.currency !== 'IDR') {
+    return handleBadRequest(res, "Amount value should be IDR");
+  } else if (amount.value <= 100) {
+    return handleBadRequest(res, "Amount must be greater than 100");
   }
 
   try {
