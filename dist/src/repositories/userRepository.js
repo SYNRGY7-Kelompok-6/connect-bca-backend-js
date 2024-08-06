@@ -15,6 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findByUserId = void 0;
 const User_1 = __importDefault(require("../models/User"));
 const findByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield User_1.default.query().findOne({ user_id: userId }).withGraphFetched('accounts');
+    return yield User_1.default.query()
+        .select('name')
+        .findOne({ user_id: userId })
+        .withGraphFetched('accounts')
+        .modifyGraph('accounts', (queryBuilder) => {
+        queryBuilder.select('account_number');
+    });
 });
 exports.findByUserId = findByUserId;

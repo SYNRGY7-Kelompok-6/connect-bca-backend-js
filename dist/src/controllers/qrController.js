@@ -25,6 +25,12 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
     else if (typeof amount.value !== "number") {
         return (0, responseHelper_1.handleBadRequest)(res, "Amount value invalid");
     }
+    else if (amount.currency !== 'IDR') {
+        return (0, responseHelper_1.handleBadRequest)(res, "Amount value should be IDR");
+    }
+    else if (amount.value <= 100) {
+        return (0, responseHelper_1.handleBadRequest)(res, "Amount must be greater than 100");
+    }
     try {
         const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode, option);
         if (!qrData) {
