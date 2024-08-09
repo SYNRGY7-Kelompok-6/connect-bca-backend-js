@@ -16,18 +16,13 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    ResponseQRTransfer:
+    ResponseQR:
       type: object
       properties:
         qrImage:
           type: string
         expiresAt:
           type: number
-    ResponseQRPay:
-      type: object
-      properties:
-        qrImage:
-          type: string
     ResponseVerifyQR:
       type: object
       oneOf:
@@ -38,10 +33,17 @@ components:
               type: string
             remark:
               type: string
+            expiresAt:
+              type: number
           required:
             - beneficiary
             - remark
+            - expiresAt
         - properties:
+            sourceName:
+              type: string
+            sourceAccountNumber:
+              type: string
             beneficiaryName:
               type: string
             beneficiaryAccountNumber:
@@ -58,13 +60,14 @@ components:
             expiresAt:
               type: number
           required:
+            - source
             - beneficiary
             - amount
             - remark
             - expiresAt
 paths:
   /qr/qr-transfer:
-    post:
+    get:
       summary: Generate QR Transfer
       tags:
         - QR Code
@@ -85,29 +88,13 @@ paths:
             type: string
             enum: [qr, url]
           description: Default option is qr
-      requestBody:
-        required: true
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:
-                amount:
-                  type: object
-                  properties:
-                    value:
-                      type: number
-                    currency:
-                      type: string
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseQRTransfer'
-        '400':
-          description: Bad Request - Request body empty
+                $ref: '#/components/schemas/ResponseQR'
         '401':
           description: Unauthorized - Access token empty
         '403':
@@ -117,7 +104,7 @@ paths:
         '500':
           description: Error
   /qr/qr-pay:
-    get:
+    post:
       summary: Generate QR Payment
       tags:
         - QR Code
@@ -138,14 +125,35 @@ paths:
             type: string
             enum: [qr, url]
           description: Default option is qr
-
+        - name: X-PIN-TOKEN
+          in: header
+          required: true
+          schema:
+            type: string
+          description: PIN token required for authentication
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                    currency:
+                      type: string
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseQRPay'
+                $ref: '#/components/schemas/ResponseQR'
+        '400':
+          description: Bad Request - Request body empty
         '401':
           description: Unauthorized - Access token empty
         '403':
@@ -184,6 +192,6 @@ paths:
         '403':
           description: Forbidden - Invalid access token
         '404':
-          description: Not Found - Payload is expired
+          description: Not Found - QR is expired
         '500':
           description: Error - Invalid request body payload
