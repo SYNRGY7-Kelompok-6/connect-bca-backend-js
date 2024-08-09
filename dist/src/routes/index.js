@@ -12,7 +12,7 @@ const router = express_1.default.Router();
 const root = new express_route_grouping_1.default('/', router);
 root.group('qr', (qr) => {
     qr.post('/qr-transfer', authenticateMiddleware_1.authentication, qrController_1.generateQrisTransfer);
-    qr.get('/qr-pay', authenticateMiddleware_1.authentication, qrController_1.generateQrisPay);
+    qr.get('/qr-pay', authenticateMiddleware_1.authentication, authenticateMiddleware_1.validatePin, qrController_1.generateQrisPay);
     qr.post('/qr-verify', authenticateMiddleware_1.authentication, qrController_1.verifyQris);
 });
 router.use((req, res) => {

@@ -7,7 +7,6 @@ import { qrisExpire, isExpired } from "../utils/qrisExpire";
 
 export const qrisTransfer = async (
   userId: string, 
-  amount: Amount, 
   mode: 'dark' | 'bright' = 'bright',
   option: 'qr' | 'url'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
@@ -25,7 +24,6 @@ export const qrisTransfer = async (
   const userAccount: QrisTransferPayload = {
     beneficiaryName: user.name,
     beneficiaryAccountNumber: user.accounts.account_number,
-    amount,
     remark: 'QR Transfer',
     expiresAt
   }
@@ -46,10 +44,12 @@ export const qrisTransfer = async (
 
 export const qrisPay = async (
   userId: string, 
+  amount: Amount, 
   mode: 'dark' | 'bright' = 'bright',
   option: 'qr' | 'url'
-): Promise<{ qrImage: string  } | null> => {
+): Promise<{ qrImage: string, expiresAt: number } | null> => {
   const user = await findByUserId(userId);
+  const expiresAt = qrisExpire(300);
 
   if (!user) {
     return null;
@@ -60,9 +60,11 @@ export const qrisPay = async (
   : { dark: '#1C1C1E', light: '#FFFFFF' };
   
   const userAccount: QrisPayPayload = {
-    beneficiaryName: user.name,
-    beneficiaryAccountNumber: user.accounts.account_number,
+    sourceName: user.name,
+    sourceAccountNumber: user.accounts.account_number,
+    amount,
     remark: 'QR Pay',
+    expiresAt
   }
 
   // Encrypt payload data
@@ -76,14 +78,36 @@ export const qrisPay = async (
     qrImage = await uploadImage(qrImage);
   }
 
-  return { qrImage };
+  return { qrImage, expiresAt };
 }
 
-export const verifyQR = async (qrData: string): Promise<QrisPayPayload | QrisTransferPayload | boolean> => {
+export const verifyQR = async (userId: string, qrData: string): Promise<QrisPayPayload | QrisTransferPayload | boolean | null> => {
   const decryptedData = await decryptData(qrData);
 
-  if ('expiresAt' in decryptedData && isExpired(decryptedData.expiresAt)) {
+  if (isExpired(decryptedData.expiresAt)) {
     return false;
+  }
+
+  if (decryptedData.remark === 'QR Pay') {
+    const user = await findByUserId(userId);
+  
+    if (!user) {
+      return null;
+    } else if (user.accounts.account_number === decryptedData.sourceAccountNumber) {
+      return null;
+    }
+
+    const userAccount: QrisPayPayload = {
+      sourceName: decryptedData.sourceName,
+      sourceAccountNumber: decryptedData.sourceAccountNumber,  
+      beneficiaryName: user.name,
+      beneficiaryAccountNumber: user.accounts.account_number,
+      amount: decryptedData.amount,
+      remark: decryptedData.remark,
+      expiresAt: decryptedData.expiresAt
+    }
+  
+    return userAccount;
   }
 
   return decryptedData;
