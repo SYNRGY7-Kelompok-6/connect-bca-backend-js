@@ -11,6 +11,23 @@ import {
 export const generateQrisTransfer = async (req: Request | any, res: Response) => {
   const user = req.user;
   const { mode, option } = req.query;
+
+  try {
+    const qrData = await qrisTransfer(user.sub, mode, option);
+
+    if (!qrData) {
+      return handleNotFound(res, "User not found");
+    }
+
+    return handleSuccess(res, "QR code generated successfully", qrData);
+  } catch (error) {
+    return handleError(res, "Error generating QR", error);
+  }
+}
+
+export const generateQrisPay = async (req: Request | any, res: Response) => {
+  const user = req.user;
+  const { mode, option } = req.query;
   const { amount } = req.body;
 
   if (!amount.value) {
@@ -26,24 +43,7 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
   }
 
   try {
-    const qrData = await qrisTransfer(user.sub, amount, mode, option);
-
-    if (!qrData) {
-      return handleNotFound(res, "User not found");
-    }
-
-    return handleSuccess(res, "QR code generated successfully", qrData);
-  } catch (error) {
-    return handleError(res, "Error generating QR", error);
-  }
-}
-
-export const generateQrisPay = async (req: Request | any, res: Response) => {
-  const user = req.user;
-  const { mode, option } = req.query;
-
-  try {
-    const qrData = await qrisPay(user.sub, mode, option);
+    const qrData = await qrisPay(user.sub, amount, mode, option);
 
     if (!qrData) {
       return handleNotFound(res, "User not found");
@@ -56,6 +56,7 @@ export const generateQrisPay = async (req: Request | any, res: Response) => {
 }
 
 export const verifyQris = async (req: Request | any, res: Response) => {
+  const user = req.user;
   const { payload } = req.body;
 
   if (!payload) {
@@ -63,10 +64,12 @@ export const verifyQris = async (req: Request | any, res: Response) => {
   }
 
   try {
-    const qrData = await verifyQR(payload);
+    const qrData = await verifyQR(user.sub, payload);
 
-    if (!qrData) {
+    if (qrData === false) {
       return handleNotFound(res, 'QR code is expired')
+    } else if (qrData === null) {
+      return handleNotFound(res, 'Beneficiary is not valid')
     }
 
     return handleSuccess(res, "QR code payload succesfully parsed", qrData); 

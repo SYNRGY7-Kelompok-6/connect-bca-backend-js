@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import RouteGroup from 'express-route-grouping';
-import { authentication } from '../middleware/authenticateMiddleware';
+import { authentication, validatePin } from '../middleware/authenticateMiddleware';
 import { generateQrisTransfer, generateQrisPay, verifyQris } from '../controllers/qrController';
 import { handleNotFound, handleError } from '../helpers/responseHelper';
 
@@ -9,7 +9,7 @@ const root = new RouteGroup('/', router);
 
 root.group('qr', (qr) => {
   qr.post('/qr-transfer', authentication, generateQrisTransfer);
-  qr.get('/qr-pay', authentication, generateQrisPay);
+  qr.get('/qr-pay', authentication, validatePin, generateQrisPay);
   qr.post('/qr-verify', authentication, verifyQris);
 })
 

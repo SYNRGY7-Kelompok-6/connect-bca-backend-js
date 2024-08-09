@@ -15,6 +15,21 @@ const responseHelper_1 = require("../helpers/responseHelper");
 const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     const { mode, option } = req.query;
+    try {
+        const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, mode, option);
+        if (!qrData) {
+            return (0, responseHelper_1.handleNotFound)(res, "User not found");
+        }
+        return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", qrData);
+    }
+    catch (error) {
+        return (0, responseHelper_1.handleError)(res, "Error generating QR", error);
+    }
+});
+exports.generateQrisTransfer = generateQrisTransfer;
+const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const { mode, option } = req.query;
     const { amount } = req.body;
     if (!amount.value) {
         return (0, responseHelper_1.handleBadRequest)(res, "Amount value is required");
@@ -32,22 +47,7 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return (0, responseHelper_1.handleBadRequest)(res, "Amount must be greater than 100");
     }
     try {
-        const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, amount, mode, option);
-        if (!qrData) {
-            return (0, responseHelper_1.handleNotFound)(res, "User not found");
-        }
-        return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", qrData);
-    }
-    catch (error) {
-        return (0, responseHelper_1.handleError)(res, "Error generating QR", error);
-    }
-});
-exports.generateQrisTransfer = generateQrisTransfer;
-const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user;
-    const { mode, option } = req.query;
-    try {
-        const qrData = yield (0, paymentService_1.qrisPay)(user.sub, mode, option);
+        const qrData = yield (0, paymentService_1.qrisPay)(user.sub, amount, mode, option);
         if (!qrData) {
             return (0, responseHelper_1.handleNotFound)(res, "User not found");
         }
@@ -59,14 +59,18 @@ const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.generateQrisPay = generateQrisPay;
 const verifyQris = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
     const { payload } = req.body;
     if (!payload) {
         return (0, responseHelper_1.handleBadRequest)(res, 'QR data payload is required');
     }
     try {
-        const qrData = yield (0, paymentService_1.verifyQR)(payload);
-        if (!qrData) {
+        const qrData = yield (0, paymentService_1.verifyQR)(user.sub, payload);
+        if (qrData === false) {
             return (0, responseHelper_1.handleNotFound)(res, 'QR code is expired');
+        }
+        else if (qrData === null) {
+            return (0, responseHelper_1.handleNotFound)(res, 'Beneficiary is not valid');
         }
         return (0, responseHelper_1.handleSuccess)(res, "QR code payload succesfully parsed", qrData);
     }
