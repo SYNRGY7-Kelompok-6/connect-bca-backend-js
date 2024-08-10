@@ -9,3 +9,9 @@ export const findByUserId = async (userId: string): Promise<{ name: string; acco
       queryBuilder.select('account_number');
     });
 }
+
+export const findPinByUserId = async (userId: string): Promise<{ pin: number } | undefined> => {
+  return await User.query()
+    .select('pin')
+    .findOne({ user_id: userId })
+}

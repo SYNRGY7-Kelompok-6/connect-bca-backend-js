@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken, verifyTokenPin } from '../utils/jwt';
+import { findPinByUserId } from "../repositories/userRepository";
+import { findPinByAccountNumber } from "../repositories/accountRepository";
 import { handleUnauthorized, handleForbidden, handleBadRequest } from '../helpers/responseHelper';
 
 export const authentication = (req: Request | any, res: Response, next: NextFunction) => {
@@ -20,7 +22,8 @@ export const authentication = (req: Request | any, res: Response, next: NextFunc
   }
 }
 
-export const validatePin = (req: Request | any, res: Response, next: NextFunction) => {
+export const validatePin = async (req: Request | any, res: Response, next: NextFunction) => {
+  const user = req.user;
   const pinToken = req.headers['x-pin-token'];
 
   if (!pinToken) {
@@ -28,9 +31,15 @@ export const validatePin = (req: Request | any, res: Response, next: NextFunctio
   }
 
   try {
-    verifyTokenPin(pinToken);
+    const decoded: any = verifyTokenPin(pinToken);
+    const userPin = await findPinByUserId(user.sub);
+    const userPinX = await findPinByAccountNumber(decoded.sub);
 
-    next();
+    if (userPin?.pin === userPinX?.users.pin) {
+      next();
+    } else {
+      return handleForbidden(res, "Invalid PIN");      
+    }
   } catch (err) {
     return handleForbidden(res, "Invalid PIN");
   }

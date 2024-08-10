@@ -8,8 +8,8 @@ const router: Router = express.Router();
 const root = new RouteGroup('/', router);
 
 root.group('qr', (qr) => {
-  qr.post('/qr-transfer', authentication, generateQrisTransfer);
-  qr.get('/qr-pay', authentication, validatePin, generateQrisPay);
+  qr.get('/qr-transfer', authentication, generateQrisTransfer);
+  qr.post('/qr-pay', authentication, validatePin, generateQrisPay);
   qr.post('/qr-verify', authentication, verifyQris);
 })
 
