@@ -1,5 +1,5 @@
 import type { Knex } from "knex";
-import { DatabaseConfig } from "./src/interfaces/Database";
+import { DatabaseConfig } from "./src/interfaces/database";
 import dotenv from 'dotenv';
 
 dotenv.config();
