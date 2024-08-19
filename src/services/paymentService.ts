@@ -24,7 +24,7 @@ export const qrisTransfer = async (
   const userAccount: QrisTransferPayload = {
     beneficiaryName: user.name,
     beneficiaryAccountNumber: user.accounts.account_number,
-    remark: 'QR Transfer',
+    remark: 'QRIS Transfer',
     expiresAt
   }
 
@@ -63,7 +63,7 @@ export const qrisPay = async (
     sourceName: user.name,
     sourceAccountNumber: user.accounts.account_number,
     amount,
-    remark: 'QR Pay',
+    remark: 'QRIS Pay',
     expiresAt
   }
 
@@ -88,7 +88,7 @@ export const verifyQR = async (userId: string, qrData: string): Promise<QrisPayP
     return false;
   }
 
-  if (decryptedData.remark === 'QR Pay') {
+  if (decryptedData.remark === 'QRIS Pay') {
     const user = await findByUserId(userId);
   
     if (!user) {

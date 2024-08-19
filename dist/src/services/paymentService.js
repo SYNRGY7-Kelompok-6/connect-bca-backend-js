@@ -30,7 +30,7 @@ const qrisTransfer = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...ar
     const userAccount = {
         beneficiaryName: user.name,
         beneficiaryAccountNumber: user.accounts.account_number,
-        remark: 'QR Transfer',
+        remark: 'QRIS Transfer',
         expiresAt
     };
     // Encrypt payload data
@@ -57,7 +57,7 @@ const qrisPay = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userId_1, 
         sourceName: user.name,
         sourceAccountNumber: user.accounts.account_number,
         amount,
-        remark: 'QR Pay',
+        remark: 'QRIS Pay',
         expiresAt
     };
     // Encrypt payload data
@@ -76,7 +76,7 @@ const verifyQR = (userId, qrData) => __awaiter(void 0, void 0, void 0, function*
     if ((0, qrisExpire_1.isExpired)(decryptedData.expiresAt)) {
         return false;
     }
-    if (decryptedData.remark === 'QR Pay') {
+    if (decryptedData.remark === 'QRIS Pay') {
         const user = yield (0, userRepository_1.findByUserId)(userId);
         if (!user) {
             return null;

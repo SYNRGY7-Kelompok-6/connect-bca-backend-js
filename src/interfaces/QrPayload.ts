@@ -6,7 +6,7 @@ export interface Amount {
 export interface QrisTransferPayload {
   beneficiaryName: string;
   beneficiaryAccountNumber: string;
-  remark: 'QR Transfer';
+  remark: 'QRIS Transfer';
   expiresAt: number;
 }
 
@@ -16,6 +16,6 @@ export interface QrisPayPayload {
   beneficiaryName?: string;
   beneficiaryAccountNumber?: string;
   amount: Amount;
-  remark: 'QR Pay';
+  remark: 'QRIS Pay';
   expiresAt: number;
 }

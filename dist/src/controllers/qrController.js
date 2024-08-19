@@ -20,10 +20,10 @@ const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, fun
         if (!qrData) {
             return (0, responseHelper_1.handleNotFound)(res, "User not found");
         }
-        return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", qrData);
+        return (0, responseHelper_1.handleSuccess)(res, "QRIS generated successfully", qrData);
     }
     catch (error) {
-        return (0, responseHelper_1.handleError)(res, "Error generating QR", error);
+        return (0, responseHelper_1.handleError)(res, "Error generating QRIS", error);
     }
 });
 exports.generateQrisTransfer = generateQrisTransfer;
@@ -51,10 +51,10 @@ const generateQrisPay = (req, res) => __awaiter(void 0, void 0, void 0, function
         if (!qrData) {
             return (0, responseHelper_1.handleNotFound)(res, "User not found");
         }
-        return (0, responseHelper_1.handleSuccess)(res, "QR code generated successfully", qrData);
+        return (0, responseHelper_1.handleSuccess)(res, "QRIS generated successfully", qrData);
     }
     catch (error) {
-        return (0, responseHelper_1.handleError)(res, "Error generating QR", error);
+        return (0, responseHelper_1.handleError)(res, "Error generating QRIS", error);
     }
 });
 exports.generateQrisPay = generateQrisPay;
@@ -62,20 +62,20 @@ const verifyQris = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const user = req.user;
     const { payload } = req.body;
     if (!payload) {
-        return (0, responseHelper_1.handleBadRequest)(res, 'QR data payload is required');
+        return (0, responseHelper_1.handleBadRequest)(res, 'QRIS data payload is required');
     }
     try {
         const qrData = yield (0, paymentService_1.verifyQR)(user.sub, payload);
         if (qrData === false) {
-            return (0, responseHelper_1.handleNotFound)(res, 'QR code is expired');
+            return (0, responseHelper_1.handleNotFound)(res, 'QRIS is expired');
         }
         else if (qrData === null) {
             return (0, responseHelper_1.handleNotFound)(res, 'Beneficiary is not valid');
         }
-        return (0, responseHelper_1.handleSuccess)(res, "QR code payload succesfully parsed", qrData);
+        return (0, responseHelper_1.handleSuccess)(res, "QRIS payload succesfully parsed", qrData);
     }
     catch (error) {
-        return (0, responseHelper_1.handleError)(res, "Error parsed QR payload", error);
+        return (0, responseHelper_1.handleError)(res, "Error parsed QRIS payload", error);
     }
 });
 exports.verifyQris = verifyQris;

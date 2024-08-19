@@ -19,9 +19,9 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
       return handleNotFound(res, "User not found");
     }
 
-    return handleSuccess(res, "QR code generated successfully", qrData);
+    return handleSuccess(res, "QRIS generated successfully", qrData);
   } catch (error) {
-    return handleError(res, "Error generating QR", error);
+    return handleError(res, "Error generating QRIS", error);
   }
 }
 
@@ -49,9 +49,9 @@ export const generateQrisPay = async (req: Request | any, res: Response) => {
       return handleNotFound(res, "User not found");
     }
 
-    return handleSuccess(res, "QR code generated successfully", qrData);
+    return handleSuccess(res, "QRIS generated successfully", qrData);
   } catch (error) {
-    return handleError(res, "Error generating QR", error);
+    return handleError(res, "Error generating QRIS", error);
   }
 }
 
@@ -60,20 +60,20 @@ export const verifyQris = async (req: Request | any, res: Response) => {
   const { payload } = req.body;
 
   if (!payload) {
-    return handleBadRequest(res, 'QR data payload is required')
+    return handleBadRequest(res, 'QRIS data payload is required')
   }
 
   try {
     const qrData = await verifyQR(user.sub, payload);
 
     if (qrData === false) {
-      return handleNotFound(res, 'QR code is expired')
+      return handleNotFound(res, 'QRIS is expired')
     } else if (qrData === null) {
       return handleNotFound(res, 'Beneficiary is not valid')
     }
 
-    return handleSuccess(res, "QR code payload succesfully parsed", qrData); 
+    return handleSuccess(res, "QRIS payload succesfully parsed", qrData); 
   } catch (error) {
-    return handleError(res, "Error parsed QR payload", error)
+    return handleError(res, "Error parsed QRIS payload", error)
   }
 }
