@@ -8,19 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyQR = exports.qrisPay = exports.qrisTransfer = void 0;
-const qrcode_1 = __importDefault(require("qrcode"));
 const userRepository_1 = require("../repositories/userRepository");
 const uploadImageService_1 = require("./uploadImageService");
-const qrisEncrypt_1 = require("../utils/qrisEncrypt");
-const qrisExpire_1 = require("../utils/qrisExpire");
+const generateQR_1 = require("../utils/generateQR");
+const encryptQR_1 = require("../utils/encryptQR");
+const expireQR_1 = require("../utils/expireQR");
 const qrisTransfer = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...args_1], void 0, function* (userId, mode = 'bright', option) {
     const user = yield (0, userRepository_1.findByUserId)(userId);
-    const expiresAt = (0, qrisExpire_1.qrisExpire)(300);
+    const expiresAt = (0, expireQR_1.qrisExpire)(300);
     if (!user) {
         return null;
     }
@@ -34,9 +31,9 @@ const qrisTransfer = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...ar
         expiresAt
     };
     // Encrypt payload data
-    const encryptedData = (0, qrisEncrypt_1.encryptData)(userAccount);
+    const encryptedData = (0, encryptQR_1.encryptData)(userAccount);
     // Generate QR code
-    let qrImage = yield qrcode_1.default.toDataURL(encryptedData, { color });
+    let qrImage = yield (0, generateQR_1.generateQR)(encryptedData, color);
     // Upload image if option to url
     if (option === 'url') {
         qrImage = yield (0, uploadImageService_1.uploadImage)(qrImage);
@@ -46,7 +43,7 @@ const qrisTransfer = (userId_1, ...args_1) => __awaiter(void 0, [userId_1, ...ar
 exports.qrisTransfer = qrisTransfer;
 const qrisPay = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userId_1, amount_1, ...args_1], void 0, function* (userId, amount, mode = 'bright', option) {
     const user = yield (0, userRepository_1.findByUserId)(userId);
-    const expiresAt = (0, qrisExpire_1.qrisExpire)(300);
+    const expiresAt = (0, expireQR_1.qrisExpire)(300);
     if (!user) {
         return null;
     }
@@ -61,9 +58,9 @@ const qrisPay = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userId_1, 
         expiresAt
     };
     // Encrypt payload data
-    const encryptedData = (0, qrisEncrypt_1.encryptData)(userAccount);
+    const encryptedData = (0, encryptQR_1.encryptData)(userAccount);
     // Generate QR code
-    let qrImage = yield qrcode_1.default.toDataURL(encryptedData, { color });
+    let qrImage = yield (0, generateQR_1.generateQR)(encryptedData, color);
     // Upload image if option to url
     if (option === 'url') {
         qrImage = yield (0, uploadImageService_1.uploadImage)(qrImage);
@@ -72,8 +69,8 @@ const qrisPay = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userId_1, 
 });
 exports.qrisPay = qrisPay;
 const verifyQR = (userId, qrData) => __awaiter(void 0, void 0, void 0, function* () {
-    const decryptedData = yield (0, qrisEncrypt_1.decryptData)(qrData);
-    if ((0, qrisExpire_1.isExpired)(decryptedData.expiresAt)) {
+    const decryptedData = yield (0, encryptQR_1.decryptData)(qrData);
+    if ((0, expireQR_1.isExpired)(decryptedData.expiresAt)) {
         return false;
     }
     if (decryptedData.remark === 'QRIS Pay') {

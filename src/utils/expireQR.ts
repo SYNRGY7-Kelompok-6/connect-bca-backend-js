@@ -1,14 +1,14 @@
 export const qrisExpire = (seconds: number): number => {
-  const expirationDate = new Date();
+  const expirationDate: Date = new Date();
   expirationDate.setSeconds(expirationDate.getSeconds() + seconds);
-  const expirationTimestamp = expirationDate.getTime();
+  const expirationTimestamp: number = expirationDate.getTime();
 
   return expirationTimestamp;
 }
 
 export const isExpired = (expiresAt: number): boolean => {
-  const expiresAtDate = new Date(expiresAt);
-  const now = new Date();
+  const expiresAtDate: Date = new Date(expiresAt);
+  const now: Date = new Date();
 
   return now > expiresAtDate;
 }

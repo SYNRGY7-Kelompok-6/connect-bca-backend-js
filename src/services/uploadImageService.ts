@@ -1,8 +1,9 @@
+import { UploadApiResponse } from "cloudinary";
 import cloudinary from "../config/cloudinary";
 
 export const uploadImage = async (imageDataUrl: string): Promise<string> => {
   try {
-    const result = await cloudinary.uploader.upload(imageDataUrl, {
+    const result: UploadApiResponse = await cloudinary.uploader.upload(imageDataUrl, {
       folder: 'SYNRGY7/qr-code',
       use_filename: true, 
       unique_filename: true,

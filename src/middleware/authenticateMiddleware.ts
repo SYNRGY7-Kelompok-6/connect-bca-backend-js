@@ -23,8 +23,8 @@ export const authentication = (req: Request | any, res: Response, next: NextFunc
 }
 
 export const validatePin = async (req: Request | any, res: Response, next: NextFunction) => {
-  const user = req.user;
-  const pinToken = req.headers['x-pin-token'];
+  const user: any = req.user;
+  const pinToken: any = req.headers['x-pin-token'];
 
   if (!pinToken) {
     return handleBadRequest(res, "X-PIN-TOKEN header is required");

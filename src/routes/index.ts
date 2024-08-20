@@ -5,7 +5,7 @@ import { generateQrisTransfer, generateQrisPay, verifyQris } from '../controller
 import { handleNotFound, handleError } from '../helpers/responseHelper';
 
 const router: Router = express.Router();
-const root = new RouteGroup('/', router);
+const root: RouteGroup = new RouteGroup('/', router);
 
 root.group('qr', (qr) => {
   qr.get('/qr-transfer', authentication, generateQrisTransfer);

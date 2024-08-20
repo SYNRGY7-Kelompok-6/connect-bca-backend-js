@@ -9,8 +9,8 @@ import {
 } from '../helpers/responseHelper';
 
 export const generateQrisTransfer = async (req: Request | any, res: Response) => {
-  const user = req.user;
-  const { mode, option } = req.query;
+  const user: any = req.user;
+  const { mode, option }: { mode: any, option: any } = req.query;
 
   try {
     const qrData = await qrisTransfer(user.sub, mode, option);
@@ -26,9 +26,9 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
 }
 
 export const generateQrisPay = async (req: Request | any, res: Response) => {
-  const user = req.user;
-  const { mode, option } = req.query;
-  const { amount } = req.body;
+  const user: any = req.user;
+  const { mode, option }: { mode: any, option: any } = req.query;
+  const { amount }: { amount: any} = req.body;
 
   if (!amount.value) {
     return handleBadRequest(res, "Amount value is required");
@@ -56,8 +56,8 @@ export const generateQrisPay = async (req: Request | any, res: Response) => {
 }
 
 export const verifyQris = async (req: Request | any, res: Response) => {
-  const user = req.user;
-  const { payload } = req.body;
+  const user: any = req.user;
+  const { payload }: { payload: any } = req.body;
 
   if (!payload) {
     return handleBadRequest(res, 'QRIS data payload is required')

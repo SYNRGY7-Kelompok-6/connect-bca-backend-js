@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format, transports, Logger } from 'winston';
 import { getDate } from '../utils/getDate';
 
 const { 
@@ -9,9 +9,9 @@ const {
   colorize 
 } = format;
 
-const dateFormat = getDate();
+const dateFormat: string = getDate();
 
-const logger = createLogger({
+const logger: Logger = createLogger({
   level: 'info',
   format: combine(
     timestamp(),

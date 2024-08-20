@@ -1,9 +1,9 @@
-import QRCode from "qrcode";
 import { findByUserId } from "../repositories/userRepository";
-import { QrisTransferPayload, QrisPayPayload, Amount } from "../interfaces/QrPayload";
+import { QrisTransferPayload, QrisPayPayload, Amount } from "../types/QrPayload";
 import { uploadImage } from './uploadImageService';
-import { encryptData,decryptData } from "../utils/qrisEncrypt";
-import { qrisExpire, isExpired } from "../utils/qrisExpire";
+import { generateQR } from "../utils/generateQR";
+import { encryptData,decryptData } from "../utils/encryptQR";
+import { qrisExpire, isExpired } from "../utils/expireQR";
 
 export const qrisTransfer = async (
   userId: string, 
@@ -11,13 +11,13 @@ export const qrisTransfer = async (
   option: 'qr' | 'url'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
   const user = await findByUserId(userId);
-  const expiresAt = qrisExpire(300);
+  const expiresAt: number = qrisExpire(300);
 
   if (!user) {
     return null;
   }
 
-  const color = mode === 'dark'
+  const color: { dark: string, light: string} = mode === 'dark'
   ? { dark: '#FFFFFF', light: '#1C1C1E' }
   : { dark: '#1C1C1E', light: '#FFFFFF' };
   
@@ -29,11 +29,11 @@ export const qrisTransfer = async (
   }
 
   // Encrypt payload data
-  const encryptedData = encryptData(userAccount);
+  const encryptedData: string = encryptData(userAccount);
 
   // Generate QR code
-  let qrImage = await QRCode.toDataURL(encryptedData, { color });
-
+  let qrImage: string = await generateQR(encryptedData, color);
+  
   // Upload image if option to url
   if (option === 'url') {
     qrImage = await uploadImage(qrImage);
@@ -49,13 +49,13 @@ export const qrisPay = async (
   option: 'qr' | 'url'
 ): Promise<{ qrImage: string, expiresAt: number } | null> => {
   const user = await findByUserId(userId);
-  const expiresAt = qrisExpire(300);
+  const expiresAt: number = qrisExpire(300);
 
   if (!user) {
     return null;
   }
 
-  const color = mode === 'dark'
+  const color: { dark: string, light: string} = mode === 'dark'
   ? { dark: '#FFFFFF', light: '#1C1C1E' }
   : { dark: '#1C1C1E', light: '#FFFFFF' };
   
@@ -68,11 +68,11 @@ export const qrisPay = async (
   }
 
   // Encrypt payload data
-  const encryptedData = encryptData(userAccount);
+  const encryptedData: string = encryptData(userAccount);
 
   // Generate QR code
-  let qrImage = await QRCode.toDataURL(encryptedData, { color });
-
+  let qrImage: string = await generateQR(encryptedData, color);
+  
   // Upload image if option to url
   if (option === 'url') {
     qrImage = await uploadImage(qrImage);
@@ -82,7 +82,7 @@ export const qrisPay = async (
 }
 
 export const verifyQR = async (userId: string, qrData: string): Promise<QrisPayPayload | QrisTransferPayload | boolean | null> => {
-  const decryptedData = await decryptData(qrData);
+  const decryptedData: QrisPayPayload | QrisTransferPayload = await decryptData(qrData);
 
   if (isExpired(decryptedData.expiresAt)) {
     return false;
