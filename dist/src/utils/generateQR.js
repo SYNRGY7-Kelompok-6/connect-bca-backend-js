@@ -17,7 +17,7 @@ const qrcode_1 = __importDefault(require("qrcode"));
 const jimp_1 = __importDefault(require("jimp"));
 const path_1 = __importDefault(require("path"));
 const generateQR = (encryptedData, color) => __awaiter(void 0, void 0, void 0, function* () {
-    const logoPath = path_1.default.join(__dirname, '../../public/assets/images/LogoConnect.png');
+    const logoPath = path_1.default.join(process.cwd(), 'public', 'assets', 'images', 'LogoConnect.png');
     const qrOptions = {
         color,
         width: 300,

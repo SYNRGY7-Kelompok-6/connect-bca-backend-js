@@ -6,7 +6,7 @@ export const generateQR = async (
   encryptedData: string, 
   color: { dark: string; light: string }
 ): Promise<string> => {
-  const logoPath: string = path.join(__dirname, '../../public/assets/images/LogoConnect.png');
+  const logoPath: string = path.join(process.cwd(), 'public', 'assets', 'images', 'LogoConnect.png');
   const qrOptions = {
     color,
     width: 300,
