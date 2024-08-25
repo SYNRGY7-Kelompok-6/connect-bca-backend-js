@@ -18,7 +18,7 @@ export const generateQR = async (
   const qrCodeImage = await Jimp.read(Buffer.from(qrImage.split(',')[1], 'base64'));
   const logo = await Jimp.read(logoPath);
 
-  logo.resize(qrCodeImage.bitmap.width / 6, Jimp.AUTO);
+  logo.resize(qrCodeImage.bitmap.width / 5, Jimp.AUTO);
   
   const x: number = (qrCodeImage.bitmap.width - logo.bitmap.width) / 2;
   const y: number = (qrCodeImage.bitmap.height - logo.bitmap.height) / 2;

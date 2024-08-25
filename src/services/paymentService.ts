@@ -83,14 +83,13 @@ export const qrisPay = async (
 
 export const verifyQR = async (userId: string, qrData: string): Promise<QrisPayPayload | QrisTransferPayload | boolean | null> => {
   const decryptedData: QrisPayPayload | QrisTransferPayload = await decryptData(qrData);
+  const user = await findByUserId(userId);
 
   if (isExpired(decryptedData.expiresAt)) {
     return false;
   }
 
-  if (decryptedData.remark === 'QRIS Pay') {
-    const user = await findByUserId(userId);
-  
+  if (decryptedData.remark === 'QRIS Pay') {  
     if (!user) {
       return null;
     } else if (user.accounts.account_number === decryptedData.sourceAccountNumber) {
@@ -105,8 +104,8 @@ export const verifyQR = async (userId: string, qrData: string): Promise<QrisPayP
       amount: decryptedData.amount,
       remark: decryptedData.remark,
       expiresAt: decryptedData.expiresAt
-    }
-  
+    } 
+    
     return userAccount;
   }
 

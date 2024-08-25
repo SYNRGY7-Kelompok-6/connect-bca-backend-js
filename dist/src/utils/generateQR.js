@@ -26,7 +26,7 @@ const generateQR = (encryptedData, color) => __awaiter(void 0, void 0, void 0, f
     let qrImage = yield qrcode_1.default.toDataURL(encryptedData, qrOptions);
     const qrCodeImage = yield jimp_1.default.read(Buffer.from(qrImage.split(',')[1], 'base64'));
     const logo = yield jimp_1.default.read(logoPath);
-    logo.resize(qrCodeImage.bitmap.width / 6, jimp_1.default.AUTO);
+    logo.resize(qrCodeImage.bitmap.width / 5, jimp_1.default.AUTO);
     const x = (qrCodeImage.bitmap.width - logo.bitmap.width) / 2;
     const y = (qrCodeImage.bitmap.height - logo.bitmap.height) / 2;
     qrCodeImage.composite(logo, x, y);
