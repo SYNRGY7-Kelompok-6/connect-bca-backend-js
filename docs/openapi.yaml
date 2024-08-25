@@ -4,8 +4,6 @@ info:
   version: 1.0.0
   description: API for generate payment using QR code
 servers:
-  - url: https://connect-bca-api.glitch.me/api/v1.0
-    description: Staging server
   - url: https://connect-bca.fly.dev/api/v1.0
     description: Staging server
 tags:
@@ -98,13 +96,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseQR'
         '401':
-          description: Unauthorized - Access token empty
+          description: Unauthorized
         '403':
-          description: Forbidden - Invalid access token
+          description: Forbidden
         '404':
           description: Not Found
         '500':
           description: Error
+
   /qr/qr-pay:
     post:
       summary: Generate QR Payment
@@ -155,11 +154,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseQR'
         '400':
-          description: Bad Request - Request body empty
+          description: Bad Request
         '401':
-          description: Unauthorized - Access token empty
+          description: Unauthorized
         '403':
-          description: Forbidden - Invalid access token
+          description: Forbidden
         '404':
           description: Not Found
         '500':
@@ -188,12 +187,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseVerifyQR'
         '400':
-          description: Bad Request - Request body empty
+          description: Bad Request
         '401':
-          description: Unauthorized - Access token empty
+          description: Unauthorized
         '403':
-          description: Forbidden - Invalid access token
+          description: Forbidden
         '404':
-          description: Not Found - QR is expired
+          description: Not Found
         '500':
-          description: Error - Invalid request body payload
+          description: Error
