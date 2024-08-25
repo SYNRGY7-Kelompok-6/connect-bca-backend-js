@@ -70,11 +70,11 @@ const qrisPay = (userId_1, amount_1, ...args_1) => __awaiter(void 0, [userId_1, 
 exports.qrisPay = qrisPay;
 const verifyQR = (userId, qrData) => __awaiter(void 0, void 0, void 0, function* () {
     const decryptedData = yield (0, encryptQR_1.decryptData)(qrData);
+    const user = yield (0, userRepository_1.findByUserId)(userId);
     if ((0, expireQR_1.isExpired)(decryptedData.expiresAt)) {
         return false;
     }
     if (decryptedData.remark === 'QRIS Pay') {
-        const user = yield (0, userRepository_1.findByUserId)(userId);
         if (!user) {
             return null;
         }

@@ -15,6 +15,9 @@ const responseHelper_1 = require("../helpers/responseHelper");
 const generateQrisTransfer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     const { mode, option } = req.query;
+    if (Object.keys(req.body).length > 0) {
+        return (0, responseHelper_1.handleBadRequest)(res, 'This request not have body');
+    }
     try {
         const qrData = yield (0, paymentService_1.qrisTransfer)(user.sub, mode, option);
         if (!qrData) {
@@ -70,7 +73,7 @@ const verifyQris = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return (0, responseHelper_1.handleNotFound)(res, 'QRIS is expired');
         }
         else if (qrData === null) {
-            return (0, responseHelper_1.handleNotFound)(res, 'Beneficiary is not valid');
+            return (0, responseHelper_1.handleNotFound)(res, 'Beneficiary is not valid, use another account to scan barcode');
         }
         return (0, responseHelper_1.handleSuccess)(res, "QRIS payload succesfully parsed", qrData);
     }

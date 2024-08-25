@@ -12,6 +12,10 @@ export const generateQrisTransfer = async (req: Request | any, res: Response) =>
   const user: any = req.user;
   const { mode, option }: { mode: any, option: any } = req.query;
 
+  if (Object.keys(req.body).length > 0) {
+    return handleBadRequest(res, 'This request not have body');
+  }
+
   try {
     const qrData = await qrisTransfer(user.sub, mode, option);
 
@@ -69,7 +73,7 @@ export const verifyQris = async (req: Request | any, res: Response) => {
     if (qrData === false) {
       return handleNotFound(res, 'QRIS is expired')
     } else if (qrData === null) {
-      return handleNotFound(res, 'Beneficiary is not valid')
+      return handleNotFound(res, 'Beneficiary is not valid, use another account to scan barcode')
     }
 
     return handleSuccess(res, "QRIS payload succesfully parsed", qrData); 
